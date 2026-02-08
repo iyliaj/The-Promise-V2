@@ -1,10 +1,118 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BottomNavbar } from "./components/BottomNavbar";
 import { TopBorder } from "./components/TopBorder";
+import { NewPromiseForm } from "./components/NewPromiseForm";
 
 
 
 export function MainPage() {
+
+    const [userData, setUserData] = useState(() => {
+
+        const initialData = {
+
+            promises: [
+                {
+                    id: 1,
+                    title: "Cook Pizza",
+                    description: "Finish cooking Napolitana Pizza",
+                    date: "2026-02-09",
+                    time: "12:33",
+                    status: "active"
+                },
+                {
+                    id: 2,
+                    title: "Run like a bitch",
+                    description: "Burn some calories",
+                    date: "2026-02-09",
+                    time: "09:50",
+                    status: "active"
+                },
+                {
+                    id: 3,
+                    title: "Go fishing",
+                    description: "Fish in the open ocean",
+                    date: "2026-02-08",
+                    time: "18:20",
+                    status: "active"
+                },
+                {
+                    id: 4,
+                    title: "Start an adventure",
+                    description: "Be a hobbit",
+                    date: "2026-02-10",
+                    time: "08:00",
+                    status: "active"
+                },
+                {
+                    id: 5,
+                    title: "THIS IS AN EXPIRED PROMISE",
+                    description: "I'm a retard",
+                    date: "2026-02-07",
+                    time: "09:00",
+                    status: "active"
+                }
+            ],
+            ratings: {
+                userScore: "",
+                promisesStatus: {
+                    expiredPromises: [],
+                    completedPromises: []
+                }
+            },
+            settings: {
+                theme: "light",
+                font: "avenir"
+            }
+        }
+
+        const now = new Date();
+        const expired = [];
+        const active = [];
+
+        initialData.promises.forEach(promise => {
+            const dateTime = new Date(`${promise.date}T${promise.time}`);
+            const timeLeft = dateTime.getTime() - now.getTime();
+
+            if (timeLeft <= 0) {
+                expired.push({...promise, status: "expired"});
+            }   else {
+                active.push(promise);
+            }
+
+        });
+
+        active.sort((a, b) => {
+            const dateTimeA = new Date(`${a.date}T${a.time}`);
+            const dateTimeB = new Date(`${b.date}T${b.time}`);
+
+            return dateTimeA.getTime() - dateTimeB.getTime();
+        });
+
+        expired.sort((a, b) => {
+            const dateTimeA = new Date(`${a.date}T${a.time}`);
+            const dateTimeB = new Date(`${b.date}T${b.time}`);
+
+            return dateTimeA.getTime() - dateTimeB.getTime();
+        });        
+
+        return {
+            ...initialData,
+            promises: active,
+            ratings: {
+                ...initialData.ratings,
+                promisesStatus: {
+                    ...initialData.ratings.promisesStatus,
+                    expiredPromises: expired
+                }
+            }
+        }
+
+    });
+
+    useEffect(() => {
+        console.log(`Current data: ${JSON.stringify(userData)}`);
+    })
 
     const [newPromiseStatus, setNewPromiseStatus] = useState(false);
 
@@ -38,7 +146,7 @@ export function MainPage() {
                             </div>
                             <div className="buttons-section w-[50%] h-full flex flex-col gap-2 items-center justify-center">
                                 <button className="new-promise-btn w-35 h-14 bg-primary rounded-md hover:opacity-80 hover:text-canvas active:bg-green-950 cursor-pointer"
-                                onClick={handleClick}
+                                    onClick={handleClick}
                                 >New Promise</button>
                                 <button className="view-all-promises w-35 h-14 border rounded-md">View all promises</button>
                             </div>
@@ -48,40 +156,10 @@ export function MainPage() {
 
                 {/* Displays when new promise button clicked */}
                 {newPromiseStatus && (
-                    <div className="new-promise-section w-full h-100 bg-secondary rounded-md p-4 relative">
-                        <div className="text-inputs-section w-full h-[45%] flex flex-col justify-center">
-                            <form id="new-promise-form">
-                                <section>
-                                    <label htmlFor="title" className="block">Title</label>
-                                    <input type="text" id="title" className="promise-title w-[90%] h-8 bg-canvas rounded-md mt-2 p-1" />
-                                </section>
-                                <section className="mt-4">
-                                    <label htmlFor="description" className="block">Description</label>
-                                    <input type="text" id="description" className="promise-decscription w-[90%] h-8 bg-canvas rounded-md mt-2 p-1" />
-                                </section>
-                            </form>
-                        </div>
-                        <div className="deadline-buttons-section w-full h-[45%] flex flex-col justify-evenly">
-                            <section>
-                                <label htmlFor="date">Date</label>
-                                <input type="date" id="date" />
-                            </section>
-                            <section>
-                                <label htmlFor="time">Time</label>
-                                <input type="time" id="time" />
-                            </section>
-                            <section>
-                                <p>Deadline:</p>
-                                <p>Example date here</p>
-                            </section>
-                        </div>
-                        <div className="new-promise-btns flex flex-col gap-1 absolute bottom-10 right-3">
-                            <button className="w-26 h-14 bg-primary rounded-md text-[0.9rem]">Add Promise</button>
-                            <button
-                                onClick={handleClick} 
-                                className="w-26 h-14 border rounded-md text-[0.9rem hover:opacity-80 hover:text-canvas active:bg-gray-500 cursor-pointer">Cancel</button>
-                        </div>
-                    </div>
+                    <NewPromiseForm 
+                        handleClick={handleClick}
+                        setUserData={setUserData}    
+                    />
                 )}
 
             </div>

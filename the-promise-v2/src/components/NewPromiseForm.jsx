@@ -1,0 +1,123 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+
+export function NewPromiseForm({ handleClick, setUserData }) {
+
+    const { register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting, isSubmitSuccessful }
+    } = useForm();
+
+    const onSubmit = async (data) => {
+
+        console.log(data);
+
+        const newId = crypto.randomUUID();
+
+        setUserData((prev) => {
+
+            // Add new promise to active array
+
+            const active = [...prev.promises, {
+                id: newId,
+                title: data.title,
+                description: data.description,
+                date: data.date,
+                time: data.time,
+                status: "active"
+            }
+            ];
+
+            active.sort((a, b) => {
+                const dateTimeA = new Date(`${a.date}T${a.time}`);
+                const dateTimeB = new Date(`${b.date}T${b.time}`);
+
+                return dateTimeA.getTime() - dateTimeB.getTime();
+            });
+
+            return {
+                ...prev,
+                promises: active
+            }
+        });
+
+
+
+
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+
+    }
+
+    // To reset form fields after submitting
+    useEffect(() => {
+        if (isSubmitSuccessful) {
+            reset();
+        }
+    }, [isSubmitSuccessful, reset]);
+
+    return (
+        <div className="new-promise-section w-full h-100 bg-secondary rounded-md p-4 relative">
+            <div className="text-inputs-section w-full h-[45%] flex flex-col">
+                <form id="new-promise-form" onSubmit={handleSubmit(onSubmit)}>
+                    <section className="">
+                        <label htmlFor="title" className="inline">Title</label>
+                        {errors.title && (<p className="text-[0.8rem] text-red-900 inline ml-2">{errors.title.message}</p>)}
+                        <input {...register("title", {
+                            required: "Title required",
+                            validate: (value) => {
+                                if (value.length <= 3) {
+                                    return "More than 3 characters please"
+                                }
+                                return true;
+                            }
+                        })} type="text" id="title" className="promise-title w-[90%] h-8 bg-canvas rounded-md mt-2 p-1" />
+
+                    </section>
+                    <section className="mt-4">
+                        <label htmlFor="description" className="inline">Description</label>
+                        {errors.description && (<p className="text-[0.8rem] text-red-900 inline ml-2">{errors.description.message}</p>)}
+                        <input {...register("description", {
+                            required: "Description required",
+                            validate: (value) => {
+                                if (value.length <= 10) {
+                                    return "Be more descriptive"
+                                }
+                                return true;
+                            }
+                        })} type="text" id="description" className="promise-decscription w-[90%] h-8 bg-canvas rounded-md mt-2 p-1" />
+                    </section>
+                </form>
+            </div>
+            <div className="deadline-buttons-section w-full h-[50%] flex flex-col justify-evenly">
+                <section>
+                    <label htmlFor="date">Date</label>
+                    <input {...register("date", {
+                        required: "Date required"
+                    })} type="date" id="date" form="new-promise-form" />
+                    {errors.date && (<div><p className="text-[0.8rem] text-red-900">{errors.date.message}</p></div>)}
+                </section>
+                <section>
+                    <label htmlFor="time">Time</label>
+                    <input {...register("time", {
+                        required: "Time required"
+                    })} type="time" id="time" form="new-promise-form" />
+                    {errors.time && (<div><p className="text-[0.8rem] text-red-900">{errors.time.message}</p></div>)}
+                </section>
+            </div>
+            <div className="new-promise-btns flex flex-col gap-1 absolute bottom-10 right-3">
+                <button
+                    disabled={isSubmitting}
+                    form="new-promise-form"
+                    type="submit"
+                    className="w-26 h-14 bg-primary rounded-md text-[0.9rem]">{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
+                <button
+                    onClick={handleClick}
+                    className="w-26 h-14 border rounded-md text-[0.9rem hover:opacity-80 hover:text-canvas active:bg-gray-500 cursor-pointer">Cancel</button>
+            </div>
+        </div>
+    )
+}
