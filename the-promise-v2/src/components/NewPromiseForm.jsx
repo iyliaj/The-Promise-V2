@@ -7,6 +7,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
     const { register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors, isSubmitting, isSubmitSuccessful }
     } = useForm();
 
@@ -30,6 +31,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
             }
             ];
 
+            // Sort data in active array
             active.sort((a, b) => {
                 const dateTimeA = new Date(`${a.date}T${a.time}`);
                 const dateTimeB = new Date(`${b.date}T${b.time}`);
@@ -37,18 +39,14 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                 return dateTimeA.getTime() - dateTimeB.getTime();
             });
 
+            // Update promises value to active array
             return {
                 ...prev,
                 promises: active
             }
         });
 
-
-
-
-
         await new Promise((resolve) => setTimeout(resolve, 1000));
-
 
     }
 
@@ -58,6 +56,30 @@ export function NewPromiseForm({ handleClick, setUserData }) {
             reset();
         }
     }, [isSubmitSuccessful, reset]);
+
+    const dateToday = new Date().toISOString().split("T")[0];
+    const timeNow = new Date().toISOString().split("T")[1];
+
+    const validateTime = (timeValue) => {
+        const selectedDate = watch("date");
+
+        if (!selectedDate || !timeValue) {
+            return true;
+        }
+
+        if (selectedDate === dateToday) {
+            const now = new Date();
+            const selectedDateTime = new Date(`${selectedDate}T${timeValue}`);
+
+            if (selectedDateTime <= now) {
+                return "Time must be in the future!"
+            }
+
+        }
+
+        return true;
+
+    }
 
     return (
         <div className="new-promise-section w-full h-100 bg-secondary rounded-md p-4 relative">
@@ -82,6 +104,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                         {errors.description && (<p className="text-[0.8rem] text-red-900 inline ml-2">{errors.description.message}</p>)}
                         <input {...register("description", {
                             required: "Description required",
+                            maxLength: 80,
                             validate: (value) => {
                                 if (value.length <= 10) {
                                     return "Be more descriptive"
@@ -96,15 +119,20 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                 <section>
                     <label htmlFor="date">Date</label>
                     <input {...register("date", {
-                        required: "Date required"
-                    })} type="date" id="date" form="new-promise-form" />
+                        required: "Date required",
+                        min: {
+                            value: dateToday,
+                            message: "Must be not be a past date"
+                        }
+                    })} type="date" id="date" form="new-promise-form" min={dateToday} />
                     {errors.date && (<div><p className="text-[0.8rem] text-red-900">{errors.date.message}</p></div>)}
                 </section>
                 <section>
                     <label htmlFor="time">Time</label>
                     <input {...register("time", {
-                        required: "Time required"
-                    })} type="time" id="time" form="new-promise-form" />
+                        required: "Time required",
+                        validate: validateTime
+                    })} type="time" id="time" form="new-promise-form" min={timeNow} />
                     {errors.time && (<div><p className="text-[0.8rem] text-red-900">{errors.time.message}</p></div>)}
                 </section>
             </div>
@@ -113,10 +141,10 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                     disabled={isSubmitting}
                     form="new-promise-form"
                     type="submit"
-                    className="w-26 h-14 bg-primary rounded-md text-[0.9rem]">{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
+                    className="w-26 h-14 bg-primary rounded-md text-[0.9rem] hover:opacity-80 active:scale-98 text-canvas">{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
                 <button
                     onClick={handleClick}
-                    className="w-26 h-14 border rounded-md text-[0.9rem hover:opacity-80 hover:text-canvas active:bg-gray-500 cursor-pointer">Cancel</button>
+                    className="w-26 h-14 border rounded-md text-[0.9rem hover:opacity-80 hover:text-canvas active:bg-gray-500 cursor-pointer">Close</button>
             </div>
         </div>
     )
