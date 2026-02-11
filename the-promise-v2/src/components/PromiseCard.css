@@ -1,0 +1,68 @@
+.promise-card {
+    height: 80px;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* Prevent cards from being squeezed */
+    
+}
+
+.promise-card-expand {
+    animation: cardExpand 0.3s ease-in-out forwards;
+}
+
+.promise-card-collapse {
+    animation: cardCollapse 0.3s ease-in-out forwards;
+}
+
+@keyframes cardExpand {
+    0% {
+        height: 80px;
+    }
+
+    100% {
+        height: 150px;
+    }
+}
+
+@keyframes cardCollapse {
+    0% {
+        height: 150px;
+    }
+
+    100% {
+        height: 80px;
+    }
+}
+
+.promise-card-timer {
+    opacity: 0;
+    /* Start invisible */
+}
+
+.timer-show {
+    animation: showTimer 0.3s ease-in-out forwards;
+}
+
+.timer-hide {
+    animation: hideTimer 0.3s ease-in-out forwards;
+}
+
+@keyframes showTimer {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hideTimer {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

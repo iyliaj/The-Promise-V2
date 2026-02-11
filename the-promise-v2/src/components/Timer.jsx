@@ -63,6 +63,6 @@ export function Timer({ updateExpiredPromise, promise }) {
 
 
     return (
-        <p className="text-canvas text-[1.4rem]">{timeLeft}</p>
+        <p className="">{timeLeft}</p>
     )
 }

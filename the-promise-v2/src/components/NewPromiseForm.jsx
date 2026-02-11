@@ -109,9 +109,12 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                                 if (value.length <= 10) {
                                     return "Be more descriptive"
                                 }
+                                if (value.length > 80) {
+                                    return "Character limit reached"
+                                }
                                 return true;
                             }
-                        })} type="text" id="description" className="promise-decscription w-[90%] h-8 bg-canvas rounded-md mt-2 p-1" />
+                        })} type="text" id="description" className="promise-decscription w-[90%] h-8 bg-canvas rounded-md mt-2 p-1" maxLength="50" />
                     </section>
                 </form>
             </div>
