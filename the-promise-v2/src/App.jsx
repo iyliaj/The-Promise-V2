@@ -2,8 +2,9 @@ import './App.css'
 import { Routes, Route } from "react-router"
 import { MainPage } from './MainPage'
 import { RatingsPage } from './RatingsPage'
-import { getItem } from './utils/localStorage'
-import { useState } from 'react'
+import { getItem, setItem } from './utils/localStorage'
+import { useState, useEffect } from 'react'
+import { SettingsPage } from './SettingsPage'
 
 function App() {
 
@@ -46,7 +47,9 @@ function App() {
       },
       settings: {
         theme: "light",
-        font: "avenir"
+        font: "avenir",
+        textSize: "",
+        sound: "on"
       }
     }
 
@@ -94,10 +97,16 @@ function App() {
 
   });
 
+  // Persist userData to localStorage whenever it changes
+  useEffect(() => {
+    setItem("userData", userData);
+  }, [userData]);
+
   return (
     <Routes>
       <Route path="" element={<MainPage userData={userData} setUserData={setUserData} />} />
-      <Route path="/ratings" element={<RatingsPage />} />
+      <Route path="/ratings" element={<RatingsPage userData={userData} />} />
+      <Route path="/settings" element={<SettingsPage userData={userData} setUserData={setUserData} />} />
     </Routes>
   )
 }

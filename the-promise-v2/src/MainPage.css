@@ -1,0 +1,70 @@
+
+/* Animate latest promise box */
+
+.expanding-box {
+    width: 24px;
+}
+
+.expand-promise {
+    animation: expandFrame 0.3s ease-in-out forwards;
+}
+
+.collapse-promise {
+    animation: collapseFrame 0.3s ease-in-out forwards;
+}
+
+@keyframes expandFrame {
+    0% {
+        width: 24px;
+    }
+    100% {
+        width: 280px;
+    }
+}
+
+@keyframes collapseFrame {
+    0% {    
+        width: 280px;
+    }
+    100% {
+        width: 24px;
+    }
+}
+
+/* Animate latest-promise text */
+
+.latest-promise-container {
+    opacity: 0;
+}
+
+.promise-fadeIn {
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.promise-fadeOut {
+    animation:  fadeOut 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.latest-promise-timer {
+    overflow: hidden;
+}
+
