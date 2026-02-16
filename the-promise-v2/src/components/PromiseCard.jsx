@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Timer } from "./Timer";
 import "./PromiseCard.css";
 
-export function PromiseCard({ promise, updateExpiredPromise }) {
+export function PromiseCard({ promise, updateExpiredPromise, isDarkMode }) {
 
     // To track whether promise card is expanded or not
     const [promiseExpand, setPromiseExpand] = useState("loaded");
@@ -12,6 +12,60 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
     const [renderStatus, setRenderStatus] = useState("inactive");
     // To manage showing short or full display of text
     const [isExpanded, setIsExpanded] = useState(false);
+    
+    // Refs for measuring content heights
+    const cardRef = useRef(null);
+
+    // Calculate and set dynamic heights
+    useEffect(() => {
+        if (cardRef.current) {
+            // Get the actual content heights by temporarily setting different states
+            const measureHeights = () => {
+                const cardElement = cardRef.current;
+                // Access final css settings of window element
+                const style = window.getComputedStyle(cardElement);
+                // Get total y axis padding
+                const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+                
+                // Create a temporary element to measure collapsed content
+                const tempDiv = document.createElement('div');
+                tempDiv.style.position = 'absolute';
+                tempDiv.style.visibility = 'hidden';
+                tempDiv.style.width = cardElement.offsetWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) + 'px';
+                tempDiv.innerHTML = `
+                    <p class="text-canvas text-[1.1rem]">${promise.title.length > 20 ? promise.title.slice(0, 20) + "..." : promise.title}</p>
+                    <p class="text-[0.9rem]">${promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}</p>
+                `;
+                document.body.appendChild(tempDiv);
+                const collapsedHeight = tempDiv.offsetHeight + padding;
+                document.body.removeChild(tempDiv);
+                
+                // Create another temporary element to measure expanded content
+                const tempDiv2 = document.createElement('div');
+                tempDiv2.style.position = 'absolute';
+                tempDiv2.style.visibility = 'hidden';
+                tempDiv2.style.width = cardElement.offsetWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) + 'px';
+                tempDiv2.innerHTML = `
+                    <p class="text-canvas text-[1.1rem]">${promise.title}</p>
+                    <p class="text-[0.9rem] inline-block w-[94%] wrap-break-word">${promise.description}</p>
+                    <div>
+                        <p class="text-canvas text-[0.9rem] mt-2">Expiring in:</p>
+                        <div class="text-canvas text-[0.9rem]">00:00:00</div>
+                    </div>
+                `;
+                document.body.appendChild(tempDiv2);
+                const expandedHeight = tempDiv2.offsetHeight + padding;
+                document.body.removeChild(tempDiv2);
+                
+                // Set CSS custom properties for dynamic heights
+                cardElement.style.setProperty('--collapsed-height', `${collapsedHeight}px`);
+                cardElement.style.setProperty('--expanded-height', `${expandedHeight}px`);
+            };
+            
+            // Delay measurement to ensure styles are loaded
+            setTimeout(measureHeights, 100);
+        }
+    }, [promise.title, promise.description]);
 
     const handleClick = () => {
 
@@ -43,20 +97,21 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
 
     return (
         <div
+            ref={cardRef}
             onClick={handleClick}
-            className={`promise-card w-[90%] bg-secondary rounded-md p-4 ${promiseExpand === "expand" && "promise-card-expand"} ${promiseExpand === "collapse" && "promise-card-collapse"}`}
+            className={`promise-card w-[90%] ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md p-4 ${promiseExpand === "expand" && "promise-card-expand"} ${promiseExpand === "collapse" && "promise-card-collapse"}`}
         >
             {isExpanded && (
                 <div>
                     <p className="text-canvas text-[1.1rem]">{promise.title}</p>
-                    <p className="text-[0.9rem] inline-block w-[94%] wrap-break-word">{promise.description}</p>
+                    <p className={`text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"} inline-block w-[94%] wrap-break-word`}>{promise.description}</p>
                 </div>
             )}
 
             {!isExpanded && (
                 <div>
                     <p className="text-canvas text-[1.1rem]">{promise.title.length > 20 ? promise.title.slice(0, 20) + "..." : promise.title}</p>
-                    <p className="text-[0.9rem]">{promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}</p>
+                    <p className={`text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>{promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}</p>
                 </div>
             )}
 

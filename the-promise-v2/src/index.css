@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Tangerine:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-/* Fonts */
 
 
 
@@ -13,9 +12,10 @@
     --color-extra: #D9D9D9;
     --color-accent: #000000;
 
-    --color-dark-primary: #000000;
+    --color-dark-primary: #2A313F;
 }
 
+/* Fonts */
 
 /* <weight>: Use a value from 100 to 900 */
 /* <uniquifier>: Use a unique and descriptive class name */

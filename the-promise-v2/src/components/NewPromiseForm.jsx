@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 
-export function NewPromiseForm({ handleClick, setUserData }) {
+export function NewPromiseForm({ handleClick, setUserData, isDarkMode }) {
 
     const { register,
         handleSubmit,
@@ -112,7 +112,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                                     }
                                     return true;
                                 }
-                            })} type="text" id="title" className="promise-title w-full h-8 bg-canvas rounded-md mt-2 p-1" />
+                            })} type="text" id="title" className="promise-title w-full h-8 bg-canvas rounded-md mt-2 p-1 text-dark-primary" />
 
                         </section>
                         <section className="mt-4">
@@ -130,7 +130,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                                     }
                                     return true;
                                 }
-                            })} type="text" id="description" className="promise-decscription w-full h-8 bg-canvas rounded-md mt-2 p-1" maxLength="50" />
+                            })} type="text" id="description" className="promise-decscription w-full h-8 bg-canvas rounded-md mt-2 p-1 text-dark-primary" maxLength="50" />
                         </section>
                     </form>
                 </div>
@@ -143,7 +143,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                                 value: dateToday,
                                 message: "Must be not be a past date"
                             }
-                        })} type="date" id="date" form="new-promise-form" min={dateToday} className="border block mt-1 p-1 rounded-md bg-canvas text-primary" />
+                        })} type="date" id="date" form="new-promise-form" min={dateToday} className="border block mt-1 p-1 rounded-md bg-canvas text-dark-primary" />
                         {errors.date && (<div><p className="text-[0.8rem] text-red-900">{errors.date.message}</p></div>)}
                     </section>
                     <section>
@@ -151,7 +151,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                         <input {...register("time", {
                             required: "Time required",
                             validate: validateTime
-                        })} type="time" id="time" form="new-promise-form" min={timeNow} className="block border mt-1 p-1 rounded-md bg-canvas text-primary" />
+                        })} type="time" id="time" form="new-promise-form" min={timeNow} className="block border mt-1 p-1 rounded-md bg-canvas text-dark-primary" />
                         {errors.time && (<div><p className="text-[0.8rem] text-red-900">{errors.time.message}</p></div>)}
                     </section>
                 </div>
@@ -160,7 +160,7 @@ export function NewPromiseForm({ handleClick, setUserData }) {
                         disabled={isSubmitting}
                         form="new-promise-form"
                         type="submit"
-                        className="w-26 h-14 bg-secondary rounded-md text-[0.9rem] hover:opacity-80 active:scale-98 text-primary cursor-pointer">{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
+                        className={`w-26 h-14 ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md text-[0.9rem] hover:opacity-80 active:scale-98 ${isDarkMode === "light" ? "text-primary" : "text-canvas"} cursor-pointer`}>{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
                     <button
                         onClick={handleClick}
                         className="w-26 h-14 border rounded-md text-[0.9rem] text-canvas hover:opacity-80 hover:text-canvas active:bg-gray-500 cursor-pointer">Close</button>

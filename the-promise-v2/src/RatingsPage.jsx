@@ -3,7 +3,7 @@ import { TopBorder } from "./components/TopBorder";
 
 
 
-export function RatingsPage({ userData }) {
+export function RatingsPage({ userData, isDarkMode }) {
 
     // Should be processed in a backend in the future
     const completedPromises = [...userData.ratings.promisesStatus.completedPromises].length;
@@ -33,7 +33,7 @@ export function RatingsPage({ userData }) {
     return (
         <div className="ratings-page-container">
             <TopBorder />
-            <div className="ratings-content-container mt-14 px-10 w-full h-157 flex flex-col justify-evenly items-center bg-canvas">
+            <div className={`ratings-content-container mt-14 px-10 w-full h-157 flex flex-col justify-evenly items-center ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"}`}>
                 <div className="top-section w-40 h-20 flex justify-evenly items-center">
                     <div className="flex justify-center items-center">
                         <svg width="56" height="62" viewBox="0 0 46 52" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,22 +42,22 @@ export function RatingsPage({ userData }) {
 
                     </div>
                     <div className="score-section flex flex-col justify-center items-center">
-                        <p className="score text-[1rem] text-primary ml-2">Score</p>
-                        <p className="rating-scaore text-[1.8rem] text-primary">{score}</p>
+                        <p className={`score text-[1rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} ml-2`}>Score</p>
+                        <p className={`rating-score text-[1.8rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{score}</p>
                     </div>
                 </div>
 
                 <div className="rating-text-section flex flex-col justify-center items-center">
-                    <p className="text-[1.2rem] text-primary">{rating}</p>
-                    <p className="text-[0.9rem] text-primary mt-4">{ratingInfo}</p>
+                    <p className={`text-[1.2rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{rating}</p>
+                    <p className={`text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} mt-4`}>{ratingInfo}</p>
                 </div>
 
-                <div className="w-full h-40 bg-secondary rounded-md p-4">
-                    <p className="text-primary text-0.9rem">Your trends</p>
+                <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-secondary" : "bg-extra"} rounded-md p-4`}>
+                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} text-0.9rem`}>Your trends</p>
                     <p className="text-primary text-0.9rem">(Coming Soon)</p>
                 </div>
 
-                <div className="w-full h-40 bg-primary rounded-md p-4">
+                <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} rounded-md p-4`}>
                     <p className="text-canvas text-0.9rem">Suggestions</p>
                     <p className="text-canvas text-0.9rem">(Coming Soon)</p>
                 </div>

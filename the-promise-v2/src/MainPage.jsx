@@ -8,7 +8,7 @@ import { setItem } from "./utils/localStorage";
 import "./MainPage.css";
 
 
-export function MainPage({ userData, setUserData }) {
+export function MainPage({ userData, setUserData, isDarkMode }) {
 
 
     // Sorts data on load and every time promises data changes
@@ -128,21 +128,10 @@ export function MainPage({ userData, setUserData }) {
     }
 
     return (
-        <div className="w-full h-194 bg-canvas relative pt-1">
+        <div className={`w-full h-195 ${isDarkMode === "light" ? "bg-canvas" : "bg- bg-secondary"} relative pt-1`}>
 
-            <TopBorder />
+            <TopBorder isDarkMode={isDarkMode} />
             {/* Overlay if complete promise button clicked */}
-            {/*completePromiseState && (
-                <div className="w-[88%] h-26 bg-primary rounded-md absolute z-50 p-4 top-48 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <p className="text-[0.9rem]">Confirm complete promise?</p>
-                    <button
-                        onClick={() => handleConfirmPromise(sortedPromises[0].id)}
-                        className="inline-block mr-3 bg-canvas border border-canvas py-1 px-3 rounded-md mt-2 hover:text-canvas hover:bg-accent cursor-pointer">Confirm</button>
-                    <button
-                        onClick={handleCompletePromiseClick}
-                        className="inline-block border py-1 px-3 rounded-md hover:text-canvas cursor-pointer">Cancel</button>
-                </div>
-            )*/}
 
             {allPromisesView && (
                 <div className="all-promies-view w-full h-152 pt-5 px-5 mt-15">
@@ -158,13 +147,14 @@ export function MainPage({ userData, setUserData }) {
                                     key={promise.id}
                                     promise={promise}
                                     updateExpiredPromise={updateExpiredPromise}
+                                    isDarkMode={isDarkMode}
                                 />
                             ))}
                         </div>
                     )}
 
                     {sortedPromises.length === 0 && (
-                        <div className="">
+                        <div className="mt-4 pl-4 w-full h-50">
                             <p className="">Such emptiness...</p>
                         </div>
                     )}
@@ -172,7 +162,7 @@ export function MainPage({ userData, setUserData }) {
                     <div>
                         <button
                             onClick={handleViewAllPromises}
-                            className="w-24 h-10 bg-primary text-[0.9rem] rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2">
+                            className={`w-24 h-10 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} text-[0.9rem] rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2`}>
                             <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0.742762 8.46424C-0.247589 7.66375 -0.247587 6.15388 0.742763 5.35339L6.81119 0.44834C8.11907 -0.608808 10.0684 0.322069 10.0684 2.00377L10.0684 11.8139C10.0684 13.4956 8.11906 14.4264 6.81118 13.3693L0.742762 8.46424Z" fill="#D9D9D9" />
                             </svg>
@@ -189,34 +179,34 @@ export function MainPage({ userData, setUserData }) {
 
                     {/* New Promise is always on display in the Main Page */}
                     <div className="latest-promise-section w-full h-50 flex flex-col justify-around">
-                        <div className="latest-promise w-full h-[90%] bg-secondary rounded-md p-5 relative">
+                        <div className={`latest-promise w-full h-[90%] ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md p-5 relative`}>
 
                             {sortedPromises[0] && (
                                 <div className="w-full h-full">
                                     <div className="flex flex-col justify-around relative w-[90%]">
-                                        <div className="w-28 h-7 bg-primary rounded-md flex justify-center items-center">
-                                            <p className="text-canvas text-[0.7rem] inline-block">NEXT PROMISE</p>
+                                        <div className={`w-28 h-7 ${isDarkMode === "light" ? "bg-primary" : "bg-secondary"} rounded-md flex justify-center items-center`}>
+                                            <p className={`${isDarkMode === "light" ? "text-canvas" : "text-primary"} text-[0.7rem] inline-block`}>NEXT PROMISE</p>
                                         </div>
                                         <div className="text-container w-full h-20 pt-2">
-                                            <p className="latest-promise-text text-[1.2rem] text-primary">
+                                            <p className={`latest-promise-text text-[1.2rem] ${isDarkMode === "light" ? "text-primary" : "text-canvas"} inline-block w-50 mt-2`}>
                                                 {sortedPromises[0].title.length > 30 ? sortedPromises[0].title.slice(0, 30) + "..." : sortedPromises[0].title}
                                             </p>
                                         </div>
 
                                     </div>
 
-                                    <div className={`expanding-box h-[95%] bg-canvas rounded-md absolute z-5 right-1 top-1/2 transform -translate-y-1/2 flex ${completePromiseState === "expanded" && "expand-promise"} ${completePromiseState === "collapsed" && "collapse-promise"} ${completePromiseState === "loaded" && ""}`}>
+                                    <div className={`expanding-box h-[95%] ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"} rounded-md absolute z-5 right-1 top-1/2 transform -translate-y-1/2 flex ${completePromiseState === "expanded" && "expand-promise"} ${completePromiseState === "collapsed" && "collapse-promise"} ${completePromiseState === "loaded" && ""}`}>
                                         <div
                                             onClick={handleCompletePromiseClick}
-                                            className="complete-promise-btn w-6 h-full bg-canvas rounded-md hover:border border-primary active:scale-98 cursor-pointer">
+                                            className={`complete-promise-btn w-6 h-full ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"} rounded-md hover:border border-primary active:scale-98 cursor-pointer`}>
                                             <div className="w-full h-full flex justify-center items-center">
                                                 <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g filter="url(#filter0_d_30_26)">
                                                         <path d="M14.8417 13.5756C15.4051 14.2984 15.4051 15.3117 14.8417 16.0346L5.87743 27.5357C4.70739 29.0369 2.29999 28.2095 2.29999 26.3062L2.29999 3.30392C2.29999 1.40064 4.7074 0.573265 5.87744 2.07443L14.8417 13.5756Z" fill="#414C60" />
                                                     </g>
                                                     <defs>
-                                                        <filter id="filter0_d_30_26" x="-1.21593e-05" y="3.09944e-06" width="15.5643" height="29.6101" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                        <filter id="filter0_d_30_26" x="-1.21593e-05" y="3.09944e-06" width="15.5643" height="29.6101" filterUnits="userSpaceOnUse" colorInterpolation-filters="sRGB">
+                                                            <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                                             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                                             <feOffset dx="-1" />
                                                             <feGaussianBlur stdDeviation="0.65" />
@@ -240,13 +230,13 @@ export function MainPage({ userData, setUserData }) {
                                                 </p>
                                                 <div className="flex gap-3 mt-4">
                                                     <button
-                                                        onClick={handleConfirmPromise}
-                                                        className="w-20 h-8 bg-primary p-3 text-canvas text-[0.9rem] flex justify-center items-center rounded-md hover:opacity-95 cursor-pointer active:scale-98">
+                                                        onClick={() => handleConfirmPromise(sortedPromises[0].id)}
+                                                        className={`w-20 h-8 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} p-3 text-canvas text-[0.9rem] flex justify-center items-center rounded-md hover:opacity-95 cursor-pointer active:scale-98`}>
                                                         Yes
                                                     </button>
                                                     <button
                                                         onClick={handleCompletePromiseClick}
-                                                        className="w-20 h-8 border p-3 text-primary text-[0.9rem] flex justify-center items-center rounded-md hover:opacity-95 cursor-pointer active:scale-98">
+                                                        className={`w-20 h-8 border p-3 ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} text-[0.9rem] flex justify-center items-center rounded-md hover:opacity-95 cursor-pointer active:scale-98`}>
                                                         Cancel
                                                     </button>
                                                 </div>
@@ -259,8 +249,8 @@ export function MainPage({ userData, setUserData }) {
                             )}
                             {sortedPromises.length === 0 && (
                                 <div>
-                                    <p className="text-canvas text-[1.4rem]">Character building<br></br>starts here.</p>
-                                    <p className="mt-2 text-[0.9rem]">Make a promise to yourself today.</p>
+                                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[1.4rem]`}>Character building<br></br>starts here.</p>
+                                    <p className={`mt-2 text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>Make a promise to yourself today.</p>
                                 </div>
                             )}
 
@@ -301,10 +291,10 @@ export function MainPage({ userData, setUserData }) {
                             </div>
                             <div className="more-promises-section w-full h-[70%] flex justify-evenly gap-3">
                                 <div className="w-[50%] h-full flex flex-col justify-around gap-2">
-                                    <div className="upcoming-promises w-full h-30 bg-secondary rounded-md p-4">
+                                    <div className={`upcoming-promises w-full h-30 ${isDarkMode === "light" ? "bg-secondary" : "bg-primary"} rounded-md p-4`}>
 
                                         {!sortedPromises[1] && (
-                                            <p className="text-white text-[0.9rem]">NO UPCOMING PROMISES</p>
+                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-[0.9rem]`}>NO UPCOMING PROMISES</p>
                                         )}
 
                                         {/* Ensure the object exists first */}
@@ -312,7 +302,7 @@ export function MainPage({ userData, setUserData }) {
                                         {sortedPromises[1] && sortedPromises.length > 0 && (
 
                                             <div>
-                                                <p className="text-primary text-[0.9rem]">UPCOMING PROMISES</p>
+                                                <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.9rem]`}>UPCOMING PROMISES</p>
                                                 <hr className="border-primary mt-1"></hr>
                                                 <p className="text-primary text-[0.8rem] mt-2">
                                                     {`${sortedPromises.length - 1} more today`}
@@ -322,17 +312,17 @@ export function MainPage({ userData, setUserData }) {
                                         )}
 
                                     </div>
-                                    <div className="next-promises w-full h-18 bg-extra rounded-md p-4">
+                                    <div className={`next-promises w-full h-18 ${isDarkMode === "light" ? "bg-extra" : "bg-primary"} rounded-md p-4`}>
 
                                         {sortedPromises[1] && (
-                                            <p className="text-primary text-[0.8rem]">
+                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.8rem]`}>
                                                 {sortedPromises[1].title.length > 16 ? sortedPromises[1].title.slice(0, 16) + "..." : sortedPromises[2].title}
                                             </p>
                                         )}
                                     </div>
-                                    <div className="next-promises w-full h-18 bg-extra rounded-md p-4">
+                                    <div className={`next-promises w-full h-18 ${isDarkMode === "light" ? "bg-extra" : "bg-primary"} rounded-md p-4`}>
                                         {sortedPromises[3] && (
-                                            <p className="text-primary text-[0.8rem]">
+                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.8rem]`}>
                                                 {sortedPromises[3].title.length > 16 ? sortedPromises[3].title.slice(0, 16) + "..." : sortedPromises[3].title}
                                             </p>
                                         )}
@@ -341,7 +331,7 @@ export function MainPage({ userData, setUserData }) {
                                 <div className="buttons-section w-[50%] h-full flex flex-col gap-2 items-center justify-center">
                                     <button
                                         id="new-promise"
-                                        className="new-promise-btn w-full h-14 bg-primary rounded-md hover:opacity-95 hover:text-secondary active:scale-98 cursor-pointer text-canvas text-[0.9rem] flex justify-center items-center gap-2"
+                                        className={`new-promise-btn w-full h-14 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} rounded-md hover:opacity-95 hover:text-secondary active:scale-98 cursor-pointer text-canvas text-[0.9rem] flex justify-center items-center gap-2`}
                                         onClick={handleClick}
                                     >
                                         <svg width="12" height="12" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -352,7 +342,7 @@ export function MainPage({ userData, setUserData }) {
                                     </button>
                                     <button
                                         onClick={handleViewAllPromises}
-                                        className="view-all-promises w-full h-14 border rounded-md hover:opacity-60 active:scale-98 cursor-pointer flex justify-center items-center text-[0.9rem] gap-2"
+                                        className={`view-all-promises w-full h-14 border rounded-md hover:opacity-60 active:scale-98 cursor-pointer flex justify-center items-center text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} gap-2`}
                                     >
                                         <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8.87512 14.8462H19.0001M5.50012 12.5385L2.68762 16.0001L1.00012 14.8462M8.87512 9.07698H19.0001M5.50012 6.76929L2.68762 10.2308L1.00012 9.07698M8.87512 3.30775H19.0001M5.50012 1.00006L2.68762 4.4616L1.00012 3.30775" stroke="#414C60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -360,9 +350,9 @@ export function MainPage({ userData, setUserData }) {
 
                                         All promises
                                     </button>
-                                    <div className="w-full h-40 bg-secondary rounded-md p-4">
-                                        <p className="text-primary text-[0.9rem]">Trends</p>
-                                        <p className="text-primary text-[0.8rem]">(Feature coming soon)</p>
+                                    <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-secondary" : "bg-primary"} rounded-md p-4`}>
+                                        <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-[0.9rem]`}>Trends</p>
+                                        <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-[0.8rem]`}>(Feature coming soon)</p>
                                     </div>
                                 </div>
                             </div>
@@ -374,6 +364,7 @@ export function MainPage({ userData, setUserData }) {
                         <NewPromiseForm
                             handleClick={handleClick}
                             setUserData={setUserData}
+                            isDarkMode={isDarkMode}
                         />
                     )}
 
@@ -381,7 +372,7 @@ export function MainPage({ userData, setUserData }) {
             )}
 
 
-            <BottomNavbar />
+            <BottomNavbar isDarkMode={isDarkMode} />
         </div>
     )
 }

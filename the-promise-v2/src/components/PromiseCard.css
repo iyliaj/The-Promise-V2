@@ -1,9 +1,10 @@
 .promise-card {
-    height: 80px;
+    height: var(--collapsed-height, 80px); /* fallback to 80px if variable not set */
     overflow: hidden;
     flex-shrink: 0;
     /* Prevent cards from being squeezed */
-    
+    --collapsed-height: 80px; /* default value */
+    --expanded-height: 150px; /* default value */
 }
 
 .promise-card-expand {
@@ -16,21 +17,21 @@
 
 @keyframes cardExpand {
     0% {
-        height: 80px;
+        height: var(--collapsed-height, 80px);
     }
 
     100% {
-        height: 150px;
+        height: var(--expanded-height, 150px);
     }
 }
 
 @keyframes cardCollapse {
     0% {
-        height: 150px;
+        height: var(--expanded-height, 150px);
     }
 
     100% {
-        height: 80px;
+        height: var(--collapsed-height, 80px);
     }
 }
 

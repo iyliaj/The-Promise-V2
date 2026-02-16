@@ -5,40 +5,64 @@ import { TopBorder } from "./components/TopBorder";
 
 
 
-export function SettingsPage({ userData, setUserData }) {
+export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode }) {
 
-    // Use state to change element colours & highlight selected mode
-    const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Available fonts 
+    // font: values are css classes defined in index.css
+    // text: values used to display and cross-check with saved font
+    const fontList = [
+        { id: 1, font: "inter-400", text: "Inter" },
+        { id: 2, font: "roboto-200", text: "Roboto" },
+        { id: 3, font: "lato-regular", text: "Lato" }
+    ];
 
-        // Retrieve full data from saved key
-        const savedData = userData;
-        console.log('Initial userData in SettingsPage:', savedData);
-        // Return 
-        const savedTheme = savedData?.settings?.theme;
-        console.log('Initial saved theme:', savedTheme);
+    // To manage visibility of left arrow for font change
+    const [leftIsVisible, setLeftIsVisible] = useState(() => {
 
-        return savedTheme || "light"; // Changed from "loaded" to "light" as default
+        const savedFont = userData.settings.font;
+        const selectedFont = fontList.find(font => font.text === savedFont);
 
+        if (selectedFont.id === 1) {
+            console.log(`Id 1 detected`);
+            return false;
+        }
+
+        return true;
     });
 
+    // To manage visibility of right arrow for font change
+    const [rightIsVisible, setRightIsVisible] = useState(() => {
+
+        const savedFont = userData.settings.font;
+        const selectedFont = fontList.find(font => font.text === savedFont);
+
+        if (selectedFont.id === fontList.length) {
+            console.log(`Last font option detected`);
+            return false;
+        }
+
+        return true;
+    });    
+
+    // Handle click for dark/ light mode
     const handleClick = (e) => {
         const clickedMode = e.currentTarget.id;
 
         // Determine the new theme based on button clicked
         const newTheme = clickedMode === "light-mode" ? "light" : "dark";
-        
+
         // If already in the selected mode, do nothing
-        if ((newTheme === "light" && isDarkMode === "light") || 
+        if ((newTheme === "light" && isDarkMode === "light") ||
             (newTheme === "dark" && isDarkMode === "dark")) {
             console.log('Already in', newTheme, 'mode, returning early');
             return;
         }
 
         console.log('Switching to', newTheme, 'mode');
-        
+
         // Update local state
         setIsDarkMode(newTheme);
-        
+
         // Update userData
         setUserData(prev => {
             console.log('Previous userData:', prev);
@@ -54,10 +78,96 @@ export function SettingsPage({ userData, setUserData }) {
         });
     }
 
+    console.log(`Loaded font: ${fontType}`);
+
+    // Manage what happens when font left arrow is clicked
+    const handleLeftClick = () => {
+
+        console.log(`Current font: ${fontType}`);
+        // Find current font in fontList
+        const currentFont = fontList.find(font => font.text === fontType);
+        const currentFontId = currentFont.id;
+
+        const nextFontId = currentFontId - 1;
+
+        // If next font is first font in the list,
+        if (nextFontId === 1) {
+            console.log(`Id 1 detected`);
+            // Set visibility of left arrow to false
+            setLeftIsVisible(false);
+
+        }
+
+        // Set rigth arrow visible to true
+        // This is relevant for when right arrow previously disappeared and needs to be visible again.
+        setRightIsVisible(true);
+
+        // If id of font is less than 1, do nothing
+        if (nextFontId < 1) {
+            return;
+        }
+
+        // Find and set the next font after clicking
+        const nextFont = fontList.find(font => font.id === nextFontId);
+        console.log(`Next font to save: ${nextFont.text}`);
+        setFontType(nextFont.text);
+
+        // Save the next font into localStorage (fontType data from localStorage accessed in App.jsx)
+        setTimeout(() => {
+            console.log(`Saving new font data: ${nextFont.text}`);
+            setUserData(prev => ({
+                ...prev,
+                settings: {
+                    ...prev.settings,
+                    font: nextFont.text
+                }
+            }));
+        }, 300);
+    }
+
+    // Manage what happens when font right arrow is clicked
+    const handleRightClick = () => {
+
+        console.log(`Current font: ${fontType}`);
+        // Find current font in fontList
+        const currentFont = fontList.find(font => font.text === fontType);
+        const currentFontId = currentFont.id;
+
+        const nextFontId = currentFontId + 1;
+
+        if (nextFontId === fontList.length) {
+            setRightIsVisible(false);
+
+        }
+
+        setLeftIsVisible(true);
+
+        if (nextFontId > fontList.length) {
+            return;
+        }
+
+        const nextFont = fontList.find(font => font.id === nextFontId);
+        console.log(`Next font to save: ${nextFont.text}`);
+        setFontType(nextFont.text);
+
+
+        setTimeout(() => {
+            console.log(`Saving new font data: ${nextFont.text}`);
+            setUserData(prev => ({
+                ...prev,
+                settings: {
+                    ...prev.settings,
+                    font: nextFont.text
+                }
+            }));
+        }, 300);
+    }
+
+
     return (
         <div className="settings-page">
             <TopBorder />
-            <div className={`${isDarkMode === "dark" ? "bg-dark-primary" : "bg-canvas"} settings-page-container mt-14 h-157 p-5`}>
+            <div className={`${isDarkMode === "dark" ? "bg-primary" : "bg-canvas"} settings-page-container mt-14 h-157 p-5`}>
                 <div className="settings-container w-full h-130 bg-secondary mt-6 rounded-md overflow-hidden relative">
                     <svg width="342" height="830" viewBox="0 40 366 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_38_46)">
@@ -82,7 +192,7 @@ export function SettingsPage({ userData, setUserData }) {
                                 >
                                     Light
                                 </button>
-                                <button 
+                                <button
                                     id="dark-mode"
                                     onClick={handleClick}
                                     className={`${isDarkMode === "dark" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer`}
@@ -93,14 +203,27 @@ export function SettingsPage({ userData, setUserData }) {
                         </div>
                         <div className="font-selector w-55 h-13 flex justify-between items-center  border">
                             <p className="block text-primary text-1rem">Font</p>
-                            <div className="w-25 h-9 bg-canvas rounded-md">
-                                <p className="text-primary text-[0.9rem]"></p>
+                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
+                                <svg
+                                    onClick={handleLeftClick}
+                                    className={`left-button active:scale-90 ${!leftIsVisible && "opacity-0"}`}
+                                    width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.613169 9.5704C-0.204497 8.7836 -0.204498 7.47489 0.613168 6.68809L6.97873 0.562828C8.24933 -0.659815 10.3655 0.240659 10.3655 2.00398L10.3655 14.2545C10.3655 16.0178 8.24934 16.9183 6.97873 15.6957L0.613169 9.5704Z" fill="#414C60" />
+                                </svg>
+                                <p className="text-primary text-[0.9rem]">{fontType}</p>
+                                <svg
+                                    onClick={handleRightClick}
+                                    className={`right-button active:scale-90 ${!rightIsVisible && "opacity-0"}`}
+                                    width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.75231 9.5704C10.57 8.7836 10.57 7.47489 9.75231 6.68809L3.38675 0.562828C2.11614 -0.659814 6.24611e-08 0.24066 1.39538e-07 2.00398L6.75026e-07 14.2545C7.52103e-07 16.0178 2.11614 16.9183 3.38675 15.6957L9.75231 9.5704Z" fill="#414C60" />
+                                </svg>
+
                             </div>
                         </div>
                         <div className="text-size-selector w-55 flex justify-between items-center  h-13 border">
                             <p className="block text-primary text-1rem">Text size</p>
                             <div className="w-25 h-9 bg-canvas rounded-md">
-        
+
                             </div>
                         </div>
                         <div className="sound-selector w-55 flex justify-between items-center  h-13 border">

@@ -1,9 +1,9 @@
 
 
 
-export function BottomNavbar() {
+export function BottomNavbar({ isDarkMode }) {
     return (
-        <div className="bottom-navbar w-full h-24 bg-primary absolute bottom-0 left-0 z-10 flex justify-around items-center px-8">
+        <div className={`${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} bottom-navbar w-full h-24 absolute bottom-0 left-0 z-10 flex justify-around items-center px-8`}>
             <a href="/">
                 <div className="mainpage-link w-25 h-20 rounded-md flex justify-center items-center flex-col hover: group">
                     <svg width="49" height="39" viewBox="0 0 49 39" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -47,7 +47,7 @@ function App() {
       },
       settings: {
         theme: "light",
-        font: "avenir",
+        font: "Inter",
         textSize: "",
         sound: "on"
       }
@@ -97,17 +97,46 @@ function App() {
 
   });
 
+  // Track changes for Dark/ Light mode
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+
+    // Retrieve full data from saved key
+    const savedData = userData;
+    console.log('Initial userData in SettingsPage:', savedData);
+    // Return 
+    const savedTheme = savedData?.settings?.theme;
+    console.log('Initial saved theme:', savedTheme);
+
+    // Load "light" as default if none saved
+    return savedTheme || "light";
+
+  });
+
+  // Track changes for font settings
+  const [fontType, setFontType] = useState(() => {
+
+    const savedData = userData;
+
+    const savedFont = savedData?.settings?.font;
+
+    return savedFont || "Inter";
+  });
+
   // Persist userData to localStorage whenever it changes
   useEffect(() => {
     setItem("userData", userData);
   }, [userData]);
 
+
   return (
-    <Routes>
-      <Route path="" element={<MainPage userData={userData} setUserData={setUserData} />} />
-      <Route path="/ratings" element={<RatingsPage userData={userData} />} />
-      <Route path="/settings" element={<SettingsPage userData={userData} setUserData={setUserData} />} />
-    </Routes>
+    <div className={`${fontType === "Inter" && "inter-400"} ${fontType === "Roboto" && "roboto-200"} ${fontType === "Lato" && "lato-regular"}`}>
+      <Routes>
+        <Route path="" element={<MainPage userData={userData} setUserData={setUserData} isDarkMode={isDarkMode} />} />
+        <Route path="/ratings" element={<RatingsPage userData={userData} isDarkMode={isDarkMode} />} />
+        <Route path="/settings" element={<SettingsPage userData={userData} setUserData={setUserData} fontType={fontType} setFontType={setFontType} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+      </Routes>
+    </div>
+
   )
 }
 
