@@ -3,7 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-
+:root {
+    /* Deafault values */
+    --textXSmall: 0.7rem;
+    --textSmall: 0.8rem;
+    --textMedium: 1rem;
+    --textLarge: 1.2rem;
+    --textXLarge: 1.5rem;
+}
 
 @theme {
     --color-primary: #414C60;
@@ -12,7 +19,15 @@
     --color-extra: #D9D9D9;
     --color-accent: #000000;
 
+    /* Dark Mode */
     --color-dark-primary: #2A313F;
+
+    --text-extra-small: var(--textXSmall);
+    --text-small: var(--textSmall);
+    --text-medium: var(--textMedium);
+    --text-large: var(--textLarge);
+    --text-extra-large: var(--textXLarge);
+
 }
 
 /* Fonts */

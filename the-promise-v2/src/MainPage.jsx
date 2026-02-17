@@ -249,7 +249,7 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
                             )}
                             {sortedPromises.length === 0 && (
                                 <div>
-                                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[1.4rem]`}>Character building<br></br>starts here.</p>
+                                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-2xl`}>Character building<br></br>starts here.</p>
                                     <p className={`mt-2 text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>Make a promise to yourself today.</p>
                                 </div>
                             )}

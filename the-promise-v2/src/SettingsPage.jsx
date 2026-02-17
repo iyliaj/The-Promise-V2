@@ -44,6 +44,41 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
         return true;
     });    
 
+    const [isDefaultFontSize, setIsDefaultFontSize] = useState(() => {
+        
+        const savedTextSize = userData?.settings?.textSize;
+
+        if (savedTextSize === "default") {
+
+            // Change size
+            const root = document.documentElement;
+            root.style.setProperty("--textXSmall", "0.7rem");
+            root.style.setProperty("--textSmall", "0.8rem");
+            root.style.setProperty("--textMedium", "1rem");
+            root.style.setProperty("--textLarge", "1.2rem");
+            root.style.setProperty("--textXLarge", "1.5rem");
+
+            return true;
+        }
+
+        if (savedTextSize === "larger") {
+
+            // Change Size
+            const root = document.documentElement;
+            root.style.setProperty("--textXSmall", "0.8rem");
+            root.style.setProperty("--textSmall", "0.9rem");
+            root.style.setProperty("--textMedium", "1.1rem");
+            root.style.setProperty("--textLarge", "1.3rem");
+            root.style.setProperty("--textXLarge", "1.6rem");
+
+            return false;
+        }
+
+        return true;
+    });
+
+    console.log(`Loaded font size: ${isDefaultFontSize}`);
+
     // Handle click for dark/ light mode
     const handleClick = (e) => {
         const clickedMode = e.currentTarget.id;
@@ -163,6 +198,56 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
         }, 300);
     }
 
+    const handleTextSizeClick = (e) => {
+        if (e.currentTarget.id === "default-size") {
+
+            if (isDefaultFontSize) {
+                return;
+            }
+
+            setIsDefaultFontSize(true);
+
+            // Change size
+            const root = document.documentElement;
+            root.style.setProperty("--textXSmall", "0.7rem");
+            root.style.setProperty("--textSmall", "0.8rem");
+            root.style.setProperty("--textMedium", "1rem");
+            root.style.setProperty("--textLarge", "1.2rem");
+            root.style.setProperty("--textXLarge", "1.5rem");
+
+            setUserData(prev => ({
+                ...prev,
+                settings: {
+                    ...prev.settings,
+                    textSize: "default"
+                }
+            }));
+        }
+
+        if (e.currentTarget.id === "larger-size") {
+
+            if (!isDefaultFontSize) {
+                return;
+            }
+
+            setIsDefaultFontSize(false);
+
+            const root = document.documentElement;
+            root.style.setProperty("--textXSmall", "0.8rem");
+            root.style.setProperty("--textSmall", "0.9rem");
+            root.style.setProperty("--textMedium", "1.1rem");
+            root.style.setProperty("--textLarge", "1.3rem");
+            root.style.setProperty("--textXLarge", "1.6rem");
+
+            setUserData(prev => ({
+                ...prev,
+                settings: {
+                    ...prev.settings,
+                    textSize: "larger"
+                }
+            }));
+        }
+    }
 
     return (
         <div className="settings-page">
@@ -183,26 +268,26 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                     </svg>
                     <div className="w-full h-100 absolute z-10 top-0 left-0 flex flex-col justify-evenly items-center">
                         <div className="interface-theme-selector w-55 h-13 flex justify-between items-center border">
-                            <p className="block text-primary">Interface</p>
+                            <p className="block text-primary text-medium">Interface</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
                                 <button
                                     id="light-mode"
                                     onClick={handleClick}
-                                    className={`${isDarkMode === "light" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer`}
+                                    className={`${isDarkMode === "light" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer w-11`}
                                 >
                                     Light
                                 </button>
                                 <button
                                     id="dark-mode"
                                     onClick={handleClick}
-                                    className={`${isDarkMode === "dark" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer`}
+                                    className={`${isDarkMode === "dark" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer w-11`}
                                 >
                                     Dark
                                 </button>
                             </div>
                         </div>
                         <div className="font-selector w-55 h-13 flex justify-between items-center  border">
-                            <p className="block text-primary text-1rem">Font</p>
+                            <p className="block text-primary text-medium">Font</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
                                 <svg
                                     onClick={handleLeftClick}
@@ -221,13 +306,26 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                             </div>
                         </div>
                         <div className="text-size-selector w-55 flex justify-between items-center  h-13 border">
-                            <p className="block text-primary text-1rem">Text size</p>
-                            <div className="w-25 h-9 bg-canvas rounded-md">
-
+                            <p className="block text-primary text-medium">Text size</p>
+                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
+                                <button 
+                                        id="default-size"
+                                        onClick={handleTextSizeClick}
+                                        className={`${isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
+                                >
+                                    Default
+                                </button>
+                                <button 
+                                        id="larger-size"
+                                        onClick={handleTextSizeClick}
+                                        className={`${!isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
+                                >
+                                    Larger
+                                </button>
                             </div>
                         </div>
                         <div className="sound-selector w-55 flex justify-between items-center  h-13 border">
-                            <p className="block text-primary text-1rem">Sound</p>
+                            <p className="block text-primary text-medium">Sound</p>
                             <div className="w-25 h-9 bg-canvas rounded-md">
 
                             </div>
