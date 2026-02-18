@@ -10,7 +10,6 @@ import "./MainPage.css";
 
 export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit, playExpiryAlarm, playCompletedPromise }) {
 
-
     // Sorts data on load and every time promises data changes
     const sortedPromises = useMemo(() => {
         return [...userData.promises].sort((a, b) => {
@@ -20,11 +19,7 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
         });
     }, [userData.promises]);
 
-    // For production only - to show updated user data
-    useEffect(() => {
-        console.log(`Current data: ${JSON.stringify(userData)}`);
-    })
-
+    // Save updated data to localStorage when userData is updated
     useEffect(() => {
         setItem("userData", userData)
         console.log("Data updated")
@@ -42,7 +37,9 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
     // To track if all promises view window is open
     const [allPromisesView, setAllPromisesView] = useState(false);
 
+    // To track if latest promise is expired or not
     const [isExpired, setIsExpired] = useState(false);
+
 
     const handleClick = () => {
         newPromiseStatus === false ? setNewPromiseStatus(true) : setNewPromiseStatus(false);
@@ -134,7 +131,14 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
     }
 
     return (
-        <div className={`w-full h-195 ${isDarkMode === "light" ? "bg-canvas" : "bg- bg-secondary"} relative pt-1`}>
+        <div className=
+            {
+                `w-full h-195 
+                ${isDarkMode === "light" ? 
+                "bg-canvas" : 
+                "bg- bg-secondary"} relative pt-1`
+            }
+        >
 
             <TopBorder isDarkMode={isDarkMode} />
             {/* Overlay if complete promise button clicked */}
@@ -142,7 +146,7 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
             {allPromisesView && (
                 <div className="all-promies-view w-full h-152 pt-5 px-5 mt-15">
                     <div className="all-promises-title">
-                        <p className="text-primary text-[1.3rem] ml-4">
+                        <p className="text-primary text-large ml-4">
                             All Promises
                         </p>
                     </div>
@@ -168,9 +172,21 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                     <div>
                         <button
                             onClick={handleViewAllPromises}
-                            className={`w-24 h-10 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} text-[0.9rem] rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2`}
+                            className={
+                                `view-all-promises-back 
+                                ${isDarkMode === "light" ? 
+                                "bg-primary" : 
+                                "bg-dark-primary"
+                                }`
+                            }
                         >
-                            <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg 
+                                width="11" 
+                                height="14" 
+                                viewBox="0 0 11 14" 
+                                fill="none" 
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
                                 <path d="M0.742762 8.46424C-0.247589 7.66375 -0.247587 6.15388 0.742763 5.35339L6.81119 0.44834C8.11907 -0.608808 10.0684 0.322069 10.0684 2.00377L10.0684 11.8139C10.0684 13.4956 8.11906 14.4264 6.81118 13.3693L0.742762 8.46424Z" fill="#D9D9D9" />
                             </svg>
 
@@ -186,33 +202,76 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
 
                     {/* New Promise is always on display in the Main Page */}
                     <div className="latest-promise-section w-full h-50 flex flex-col justify-around">
-                        <div className={`latest-promise w-full h-[90%] ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md p-5 relative ${isExpired && "bg-red-950"}`}>
+                        <div className={
+                            `latest-promise-card 
+                            ${isDarkMode === "light" ? 
+                            "bg-secondary" : 
+                            "bg-dark-primary"} 
+                            ${isExpired && 
+                            "bg-red-950"}`
+                            }
+                        >
 
                             {sortedPromises[0] && !isExpired && (
                                 <div className="w-full h-full">
                                     <div className="flex flex-col justify-around relative w-[90%]">
-                                        <div className={`w-28 h-7 ${isDarkMode === "light" ? "bg-primary" : "bg-secondary"} rounded-md flex justify-center items-center`}>
-                                            <p className={`${isDarkMode === "light" ? "text-canvas" : "text-primary"} text-[0.7rem] inline-block`}>NEXT PROMISE</p>
+                                        <div className={
+                                            `latest-promise-header
+                                            ${isDarkMode === "light" ? 
+                                            "bg-primary" : 
+                                            "bg-secondary"} 
+                                            `}
+                                        >
+                                            <p className={
+                                                `${isDarkMode === "light" ? 
+                                                "text-canvas" : 
+                                                "text-primary"} 
+                                                text-[0.7rem] 
+                                                inline-block`}
+                                            >
+                                                NEXT PROMISE
+                                            </p>
                                         </div>
                                         <div className="text-container w-full h-20 pt-2">
-                                            <p className={`latest-promise-text text-[1.2rem] ${isDarkMode === "light" ? "text-primary" : "text-canvas"} inline-block w-50 mt-2`}>
-                                                {sortedPromises[0].title.length > 30 ? sortedPromises[0].title.slice(0, 30) + "..." : sortedPromises[0].title}
+                                            <p className={
+                                                `latest-promise-text  
+                                                ${isDarkMode === "light" ? 
+                                                "text-primary" : 
+                                                "text-canvas"}
+                                                text-extra-large 
+                                                `}
+                                            >
+                                                {sortedPromises[0].title.length > 30 ? 
+                                                sortedPromises[0].title.slice(0, 30) + "..." : 
+                                                sortedPromises[0].title}
                                             </p>
                                         </div>
 
                                     </div>
 
-                                    <div className={`expanding-box h-[95%] ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"} rounded-md absolute z-5 right-1 top-1/2 transform -translate-y-1/2 flex ${completePromiseState === "expanded" && "expand-promise"} ${completePromiseState === "collapsed" && "collapse-promise"} ${completePromiseState === "loaded" && ""}`}>
+                                    <div className={
+                                        `expanding-box  
+                                        ${isDarkMode === "light" ? 
+                                        "bg-canvas" : 
+                                        "bg-secondary"}  
+                                        ${completePromiseState === "expanded" && 
+                                        "expand-promise"} 
+                                        ${completePromiseState === "collapsed" && 
+                                        "collapse-promise"} 
+                                        ${completePromiseState === "loaded" && 
+                                        ""}
+                                        `}
+                                    >
                                         <div
                                             onClick={handleCompletePromiseClick}
-                                            className={`complete-promise-btn w-6 h-full ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"} rounded-md hover:border border-primary active:scale-98 cursor-pointer`}>
+                                            className={`complete-promise-btn ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"}`}>
                                             <div className="w-full h-full flex justify-center items-center">
                                                 <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g filter="url(#filter0_d_30_26)">
                                                         <path d="M14.8417 13.5756C15.4051 14.2984 15.4051 15.3117 14.8417 16.0346L5.87743 27.5357C4.70739 29.0369 2.29999 28.2095 2.29999 26.3062L2.29999 3.30392C2.29999 1.40064 4.7074 0.573265 5.87744 2.07443L14.8417 13.5756Z" fill="#414C60" />
                                                     </g>
                                                     <defs>
-                                                        <filter id="filter0_d_30_26" x="-1.21593e-05" y="3.09944e-06" width="15.5643" height="29.6101" filterUnits="userSpaceOnUse" colorInterpolation-filters="sRGB">
+                                                        <filter id="filter0_d_30_26" x="-1.21593e-05" y="3.09944e-06" width="15.5643" height="29.6101" filterUnits="userSpaceOnUse">
                                                             <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                                             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                                             <feOffset dx="-1" />
@@ -229,21 +288,21 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
 
                                         {completePromiseState === "expanded" && (
                                             <div className={`latest-promise-container p-4 ${isFadedIn === "fadeIn" && "promise-fadeIn"} ${isFadedIn === "fadeOut" && "promise-fadeOut"}`}>
-                                                <p className="text-primary text-[1rem]">
+                                                <p className="text-primary text-medium">
                                                     {sortedPromises[0].title}
                                                 </p>
-                                                <p className="text-primary text-[1.2rem] mt-3">
+                                                <p className="text-primary text-large mt-3">
                                                     Complete promise?
                                                 </p>
                                                 <div className="flex gap-3 mt-4">
                                                     <button
                                                         onClick={() => handleConfirmPromise(sortedPromises[0].id)}
-                                                        className={`w-20 h-8 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} p-3 text-canvas text-[0.9rem] flex justify-center items-center rounded-md hover:opacity-95 cursor-pointer active:scale-98`}>
+                                                        className={`complete-yes-btn ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"}`}>
                                                         Yes
                                                     </button>
                                                     <button
                                                         onClick={handleCompletePromiseClick}
-                                                        className={`w-20 h-8 border p-3 ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} text-[0.9rem] flex justify-center items-center rounded-md hover:opacity-95 cursor-pointer active:scale-98`}>
+                                                        className={`complete-cancel-btn ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>
                                                         Cancel
                                                     </button>
                                                 </div>
@@ -257,16 +316,20 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
 
                             {isExpired && (
                                 <div className="w-full h-full">
-                                    <p className="text-[1.4rem] text-canvas">Promise Expired!</p>
-                                    <p className="text-[1rem] text-canvas">You're a hopeless fool</p>
+                                    <p className="text-large text-canvas">Promise Expired!</p>
+                                    <p className="text-medium text-canvas">You're a hopeless fool</p>
                                 </div>
                             )}
 
 
                             {sortedPromises.length === 0 && !isExpired && (
                                 <div>
-                                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-2xl`}>Character building<br></br>starts here.</p>
-                                    <p className={`mt-2 text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>Make a promise to yourself today.</p>
+                                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-large`}>
+                                        Character building<br></br>starts here.
+                                    </p>
+                                    <p className={`mt-2 text-small ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>
+                                        Make a promise to yourself today.
+                                    </p>
                                 </div>
                             )}
 
@@ -276,8 +339,15 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                     {/* Displays by default and when cancel new promise button is clicked */}
                     {!newPromiseStatus && (
                         <div className="timer-more-promises w-full h-100 flex flex-col justify-around">
-                            <div className="latest-promise-timer w-full h-[24%] bg-secondary rounded-md flex justify-center items-center relative shadow-[0px_10px_30px_rgba(0,0,0,0.3)]">
-                                <svg width="371" height="209" viewBox="0 100 371 29" fill="none" xmlns="http://www.w3.org/2000/svg" className="object-cover w-full h-full" >
+                            <div className="latest-promise-timer">
+                                <svg 
+                                    width="371" 
+                                    height="209"
+                                    viewBox="0 100 371 29" 
+                                    fill="none" 
+                                    xmlns="http://www.w3.org/2000/svg" 
+                                    className="object-cover w-full h-full" 
+                                >
                                     <g clipPath="url(#clip0_32_271)">
                                         <path d="M0 50.3148L5.64229 54.5142C11.2653 58.6942 22.5498 67.0929 33.7765 70.5762C45.0224 74.0595 56.2297 72.6275 67.4756 66.7058C78.7022 60.7648 89.9868 50.3148 101.213 47.1798C112.459 44.0642 123.667 48.2442 134.913 52.0952C146.139 55.9268 157.424 59.4102 168.65 62.1775C179.896 64.9642 191.104 67.0155 202.35 64.9255C213.576 62.8355 224.861 56.5655 236.087 57.9975C247.333 59.4102 258.541 68.5056 269.787 73.7306C281.013 78.9556 292.298 80.3102 303.524 75.0852C314.77 69.8602 325.978 58.0555 337.224 60.1455C348.45 62.2549 359.735 78.2395 365.358 86.2512L371 94.2435V0H365.358C359.735 0 348.45 0 337.224 0C325.978 0 314.77 0 303.524 0C292.298 0 281.013 0 269.787 0C258.541 0 247.333 0 236.087 0C224.861 0 213.576 0 202.35 0C191.104 0 179.896 0 168.65 0C157.424 0 146.139 0 134.913 0C123.667 0 112.459 0 101.213 0C89.9868 0 78.7022 0 67.4756 0C56.2297 0 45.0224 0 33.7765 0C22.5498 0 11.2653 0 5.64229 0H0V50.3148Z" fill="#CCD5E6" />
                                         <path d="M0 75.4723L5.64229 82.0906C11.2653 88.6896 22.5498 101.926 33.7765 108.177C45.0224 114.428 56.2297 113.731 67.4756 107.461C78.7022 101.21 89.9868 89.4056 101.213 83.155C112.459 76.885 123.667 76.1883 134.913 78.2396C146.139 80.3102 157.424 85.1482 168.65 89.3089C179.896 93.4695 191.104 96.9528 202.35 94.5339C213.576 92.1149 224.861 83.7936 236.087 85.2063C247.333 86.6383 258.541 97.785 269.787 101.636C281.013 105.468 292.298 101.984 303.524 97.0883C314.77 92.1729 325.978 85.8642 337.224 89.3476C348.45 92.8309 359.735 106.106 365.358 112.763L371 119.401V93.8565L365.358 85.8642C359.735 77.8526 348.45 61.8679 337.224 59.7586C325.978 57.6686 314.77 69.4732 303.524 74.6982C292.298 79.9232 281.013 78.5686 269.787 73.3436C258.541 68.1186 247.333 59.0232 236.087 57.6105C224.861 56.1785 213.576 62.4485 202.35 64.5385C191.104 66.6285 179.896 64.5772 168.65 61.7905C157.424 59.0232 146.139 55.5399 134.913 51.7082C123.667 47.8572 112.459 43.6772 101.213 46.7928C89.9868 49.9278 78.7022 60.3778 67.4756 66.3189C56.2297 72.2405 45.0224 73.6726 33.7765 70.1892C22.5498 66.7059 11.2653 58.3072 5.64229 54.1272L0 49.9278V75.4723Z" fill="#94A5C4" />
@@ -313,7 +383,9 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                                     <div className={`upcoming-promises w-full h-30 ${isDarkMode === "light" ? "bg-secondary" : "bg-primary"} rounded-md p-4`}>
 
                                         {!sortedPromises[1] && (
-                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-[0.9rem]`}>NO UPCOMING PROMISES</p>
+                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-small`}>
+                                                NO UPCOMING PROMISES
+                                            </p>
                                         )}
 
                                         {/* Ensure the object exists first */}
@@ -321,7 +393,9 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                                         {sortedPromises[1] && sortedPromises.length > 0 && (
 
                                             <div>
-                                                <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.9rem]`}>UPCOMING PROMISES</p>
+                                                <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-small`}>
+                                                    UPCOMING PROMISES
+                                                </p>
                                                 <hr className="border-primary mt-1"></hr>
                                                 <p className="text-primary text-[0.8rem] mt-2">
                                                     {`${sortedPromises.length - 1} more today`}
@@ -334,15 +408,15 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                                     <div className={`next-promises w-full h-18 ${isDarkMode === "light" ? "bg-extra" : "bg-primary"} rounded-md p-4`}>
 
                                         {sortedPromises[1] && (
-                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.8rem]`}>
+                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-small`}>
                                                 {sortedPromises[1].title.length > 16 ? sortedPromises[1].title.slice(0, 16) + "..." : sortedPromises[1].title}
                                             </p>
                                         )}
                                     </div>
                                     <div className={`next-promises w-full h-18 ${isDarkMode === "light" ? "bg-extra" : "bg-primary"} rounded-md p-4`}>
-                                        {sortedPromises[3] && (
-                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.8rem]`}>
-                                                {sortedPromises[3].title.length > 16 ? sortedPromises[3].title.slice(0, 16) + "..." : sortedPromises[3].title}
+                                        {sortedPromises[2] && (
+                                            <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-small`}>
+                                                {sortedPromises[2].title.length > 16 ? sortedPromises[2].title.slice(0, 16) + "..." : sortedPromises[2].title}
                                             </p>
                                         )}
                                     </div>
@@ -350,10 +424,16 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                                 <div className="buttons-section w-[50%] h-full flex flex-col gap-2 items-center justify-center">
                                     <button
                                         id="new-promise"
-                                        className={`new-promise-btn w-full h-14 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} rounded-md hover:opacity-95 hover:text-secondary active:scale-98 cursor-pointer text-canvas text-[0.9rem] flex justify-center items-center gap-2`}
+                                        className={`new-promise-btn ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"}`}
                                         onClick={handleClick}
                                     >
-                                        <svg width="12" height="12" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg 
+                                            width="12" 
+                                            height="12" 
+                                            viewBox="0 0 22 22" 
+                                            fill="none" 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
                                             <path d="M1 11H11M11 11H21M11 11V21M11 11V1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
 
@@ -361,17 +441,27 @@ export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSo
                                     </button>
                                     <button
                                         onClick={handleViewAllPromises}
-                                        className={`view-all-promises w-full h-14 border rounded-md hover:opacity-60 active:scale-98 cursor-pointer flex justify-center items-center text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} gap-2`}
+                                        className={`view-all-promises ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}
                                     >
-                                        <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg 
+                                            width="20" 
+                                            height="17" 
+                                            viewBox="0 0 20 17" 
+                                            fill="none" 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
                                             <path d="M8.87512 14.8462H19.0001M5.50012 12.5385L2.68762 16.0001L1.00012 14.8462M8.87512 9.07698H19.0001M5.50012 6.76929L2.68762 10.2308L1.00012 9.07698M8.87512 3.30775H19.0001M5.50012 1.00006L2.68762 4.4616L1.00012 3.30775" stroke="#414C60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
 
                                         All promises
                                     </button>
                                     <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-secondary" : "bg-primary"} rounded-md p-4`}>
-                                        <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-[0.9rem]`}>Trends</p>
-                                        <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-[0.8rem]`}>(Feature coming soon)</p>
+                                        <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-small`}>
+                                            Trends
+                                        </p>
+                                        <p className={`${isDarkMode === "light" ? "text-primary" : "text-secondary"} text-extra-small`}>
+                                            (Feature coming soon)
+                                        </p>
                                     </div>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@ import switchSound from "./assets/Sounds/ui-simple-button-click-epic-stock-media
 
 
 
-export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode, isSoundOn, setIsSoundOn }) {
+export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode, isSoundOn, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize }) {
 
 
     const toggleAudioRef = useRef(null);
@@ -56,42 +56,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
         return true;
     });
 
-    const [isDefaultFontSize, setIsDefaultFontSize] = useState(() => {
-
-        const savedTextSize = userData?.settings?.textSize;
-
-        if (savedTextSize === "default") {
-
-            // Change size
-            const root = document.documentElement;
-            root.style.setProperty("--textXSmall", "0.7rem");
-            root.style.setProperty("--textSmall", "0.8rem");
-            root.style.setProperty("--textMedium", "1rem");
-            root.style.setProperty("--textLarge", "1.2rem");
-            root.style.setProperty("--textXLarge", "1.5rem");
-
-            return true;
-        }
-
-        if (savedTextSize === "larger") {
-
-            // Change Size
-            const root = document.documentElement;
-            root.style.setProperty("--textXSmall", "0.8rem");
-            root.style.setProperty("--textSmall", "0.9rem");
-            root.style.setProperty("--textMedium", "1.1rem");
-            root.style.setProperty("--textLarge", "1.3rem");
-            root.style.setProperty("--textXLarge", "1.6rem");
-
-            return false;
-        }
-
-        return true;
-    });
-
     console.log(`Loaded font size: ${isDefaultFontSize}`);
 
-    
 
     // Handle click for dark/ light mode
     const handleClick = (e) => {
@@ -332,7 +298,9 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                     </svg>
                     <div className="w-full h-100 absolute z-10 top-0 left-0 flex flex-col justify-evenly items-center">
                         <div className="interface-theme-selector w-55 h-13 flex justify-between items-center">
-                            <p className="block text-primary text-medium">Interface</p>
+                            <p className="block text-primary text-medium">
+                                Interface
+                            </p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
                                 <button
                                     id="light-mode"

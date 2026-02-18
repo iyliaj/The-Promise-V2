@@ -58,6 +58,7 @@ function App() {
       }
     }
 
+    // Get today's date and prepare new arrays to assign active and expired promises to
     const now = new Date();
     const expired = [];
     const active = [];
@@ -74,6 +75,7 @@ function App() {
 
     });
 
+    // Sort data in each new array according to time
     active.sort((a, b) => {
       const dateTimeA = new Date(`${a.date}T${a.time}`);
       const dateTimeB = new Date(`${b.date}T${b.time}`);
@@ -88,6 +90,7 @@ function App() {
       return dateTimeA.getTime() - dateTimeB.getTime();
     });
 
+    // Return the sorted data
     return {
       ...initialData,
       promises: active,
@@ -107,12 +110,11 @@ function App() {
 
     // Retrieve full data from saved key
     const savedData = userData;
-    console.log('Initial userData in SettingsPage:', savedData);
-    // Return 
-    const savedTheme = savedData?.settings?.theme;
-    console.log('Initial saved theme:', savedTheme);
 
-    // Load "light" as default if none saved
+    // Extract any saved theme from previous session
+    const savedTheme = savedData?.settings?.theme;
+
+    // Load "light" as default if none previously saved
     return savedTheme || "light";
 
   });
@@ -124,6 +126,7 @@ function App() {
 
     const savedFont = savedData?.settings?.font;
 
+    // Inter is the default font if none was previously saved
     return savedFont || "Inter";
   });
 
@@ -141,8 +144,11 @@ function App() {
       saved = false;
     }
 
+    // Return previous saved sound setting or default to 
     return saved || false;
   });
+
+  // AUDIO
 
   // Pop Sound for standard clicks
   const clickPopRef = useRef(null);
@@ -207,6 +213,38 @@ function App() {
     setItem("userData", userData);
   }, [userData]);
 
+  const [isDefaultFontSize, setIsDefaultFontSize] = useState(() => {
+
+    const savedTextSize = userData?.settings?.textSize;
+
+    if (savedTextSize === "default") {
+
+      // Change size
+      const root = document.documentElement;
+      root.style.setProperty("--textXSmall", "0.7rem");
+      root.style.setProperty("--textSmall", "0.8rem");
+      root.style.setProperty("--textMedium", "1rem");
+      root.style.setProperty("--textLarge", "1.2rem");
+      root.style.setProperty("--textXLarge", "1.5rem");
+
+      return true;
+    }
+
+    if (savedTextSize === "larger") {
+
+      // Change Size
+      const root = document.documentElement;
+      root.style.setProperty("--textXSmall", "0.8rem");
+      root.style.setProperty("--textSmall", "0.9rem");
+      root.style.setProperty("--textMedium", "1.1rem");
+      root.style.setProperty("--textLarge", "1.3rem");
+      root.style.setProperty("--textXLarge", "1.6rem");
+
+      return false;
+    }
+
+    return true;
+  });
 
   return (
     <div className={
@@ -215,42 +253,44 @@ function App() {
       ${fontType === "Lato" && "lato-regular"}`
     }>
       <Routes>
-        <Route 
-          path="" 
+        <Route
+          path=""
           element={
-          <MainPage 
-            userData={userData} 
-            setUserData={setUserData} 
-            isDarkMode={isDarkMode} 
-            playPopSound={playPopSound} 
-            isSoundOn={isSoundOn} 
-            playRejectSound={playRejectSound} 
-            playSuccessfulSubmit={playSuccessfulSubmit} 
-            playExpiryAlarm={playExpiryAlarm} 
-            playCompletedPromise={playCompletedPromise} 
-          />} 
+            <MainPage
+              userData={userData}
+              setUserData={setUserData}
+              isDarkMode={isDarkMode}
+              playPopSound={playPopSound}
+              isSoundOn={isSoundOn}
+              playRejectSound={playRejectSound}
+              playSuccessfulSubmit={playSuccessfulSubmit}
+              playExpiryAlarm={playExpiryAlarm}
+              playCompletedPromise={playCompletedPromise}
+            />}
         />
-        <Route 
-          path="/ratings" 
+        <Route
+          path="/ratings"
           element={
-            <RatingsPage 
-            userData={userData} 
-            isDarkMode={isDarkMode} 
-            />} 
+            <RatingsPage
+              userData={userData}
+              isDarkMode={isDarkMode}
+            />}
         />
-        <Route 
-          path="/settings" 
+        <Route
+          path="/settings"
           element={
-            <SettingsPage 
-              userData={userData} 
-              setUserData={setUserData} 
-              fontType={fontType} 
-              setFontType={setFontType} 
-              isDarkMode={isDarkMode} 
-              setIsDarkMode={setIsDarkMode} 
-              isSoundOn={isSoundOn} 
-              setIsSoundOn={setIsSoundOn} 
-            />} 
+            <SettingsPage
+              userData={userData}
+              setUserData={setUserData}
+              fontType={fontType}
+              setFontType={setFontType}
+              isDarkMode={isDarkMode}
+              setIsDarkMode={setIsDarkMode}
+              isSoundOn={isSoundOn}
+              setIsSoundOn={setIsSoundOn}
+              isDefaultFontSize={isDefaultFontSize}
+              setIsDefaultFontSize={setIsDefaultFontSize}
+            />}
         />
       </Routes>
     </div>

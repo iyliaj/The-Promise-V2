@@ -99,27 +99,40 @@ export function PromiseCard({ promise, updateExpiredPromise, isDarkMode }) {
         <div
             ref={cardRef}
             onClick={handleClick}
-            className={`promise-card w-[90%] ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md p-4 ${promiseExpand === "expand" && "promise-card-expand"} ${promiseExpand === "collapse" && "promise-card-collapse"}`}
+            className={
+                `promise-card 
+                ${isDarkMode === "light" ? 
+                    "bg-secondary" : 
+                    "bg-dark-primary"} 
+                ${promiseExpand === "expand" && 
+                    "promise-card-expand"} 
+                    ${promiseExpand === "collapse" && 
+                        "promise-card-collapse"}
+            `}
         >
             {isExpanded && (
                 <div>
-                    <p className="text-canvas text-[1.1rem]">{promise.title}</p>
-                    <p className={`text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"} inline-block w-[94%] wrap-break-word`}>{promise.description}</p>
+                    <p className="text-canvas text-medium">{promise.title}</p>
+                    <p className={`text-small ${isDarkMode === "light" ? "text-primary" : "text-secondary"} inline-block w-[94%] wrap-break-word`}>{promise.description}</p>
                 </div>
             )}
 
             {!isExpanded && (
                 <div>
-                    <p className="text-canvas text-[1.1rem]">{promise.title.length > 20 ? promise.title.slice(0, 20) + "..." : promise.title}</p>
-                    <p className={`text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>{promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}</p>
+                    <p className="text-canvas text-medium">
+                        {promise.title.length > 20 ? promise.title.slice(0, 20) + "..." : promise.title}
+                    </p>
+                    <p className={`text-small ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>
+                        {promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}
+                    </p>
                 </div>
             )}
 
 
             {renderStatus === "active" && (
                 <div className={`promise-card-timer ${timerShow && "timer-show"} ${!timerShow && "timer-hide"}`}>
-                    <p className="text-canvas text-[0.9rem] mt-2">Expiring in:</p>
-                    <div className="text-canvas text-[0.9rem]">
+                    <p className="text-canvas text-small mt-2">Expiring in:</p>
+                    <div className="text-canvas text-large">
                         <Timer
                             updateExpiredPromise={updateExpiredPromise}
                             promise={promise}

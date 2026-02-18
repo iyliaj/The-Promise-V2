@@ -42,24 +42,24 @@ export function RatingsPage({ userData, isDarkMode }) {
 
                     </div>
                     <div className="score-section flex flex-col justify-center items-center">
-                        <p className={`score text-[1rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} ml-2`}>Score</p>
-                        <p className={`rating-score text-[1.8rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{score}</p>
+                        <p className={`score text-medium ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} ml-2`}>Score</p>
+                        <p className={`rating-score text-extra-large ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{score}</p>
                     </div>
                 </div>
 
                 <div className="rating-text-section flex flex-col justify-center items-center">
-                    <p className={`text-[1.2rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{rating}</p>
-                    <p className={`text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} mt-4`}>{ratingInfo}</p>
+                    <p className={`text-large ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{rating}</p>
+                    <p className={`text-medium ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} mt-4`}>{ratingInfo}</p>
                 </div>
 
                 <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-secondary" : "bg-extra"} rounded-md p-4`}>
-                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} text-0.9rem`}>Your trends</p>
-                    <p className="text-primary text-0.9rem">(Coming Soon)</p>
+                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} text-medium`}>Your trends</p>
+                    <p className="text-primary text-small">(Coming Soon)</p>
                 </div>
 
                 <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} rounded-md p-4`}>
-                    <p className="text-canvas text-0.9rem">Suggestions</p>
-                    <p className="text-canvas text-0.9rem">(Coming Soon)</p>
+                    <p className="text-canvas text-medium">Suggestions</p>
+                    <p className="text-canvas text-small">(Coming Soon)</p>
                 </div>
             </div>
             <BottomNavbar />
