@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BottomNavbar } from "./components/BottomNavbar";
 import { TopBorder } from "./components/TopBorder";
+import switchSound from "./assets/Sounds/ui-simple-button-click-epic-stock-media-2-2-00-00.mp3";
 
 
 
+export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode, isSoundOn, setIsSoundOn }) {
 
-export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode }) {
+
+    const toggleAudioRef = useRef(null);
+
+    const playSwitchSound = (volume = 0.5) => {
+        if (!toggleAudioRef.current) {
+            toggleAudioRef.current = new Audio(switchSound);
+        }
+
+        toggleAudioRef.current.volume = volume; // Set volume (0.0 to 1.0)
+        toggleAudioRef.current.play();
+    }
 
     // Available fonts 
     // font: values are css classes defined in index.css
@@ -42,10 +54,10 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
         }
 
         return true;
-    });    
+    });
 
     const [isDefaultFontSize, setIsDefaultFontSize] = useState(() => {
-        
+
         const savedTextSize = userData?.settings?.textSize;
 
         if (savedTextSize === "default") {
@@ -79,6 +91,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
 
     console.log(`Loaded font size: ${isDefaultFontSize}`);
 
+    
+
     // Handle click for dark/ light mode
     const handleClick = (e) => {
         const clickedMode = e.currentTarget.id;
@@ -97,6 +111,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
 
         // Update local state
         setIsDarkMode(newTheme);
+
+        playSwitchSound(isSoundOn ? 0.5 : 0);
 
         // Update userData
         setUserData(prev => {
@@ -147,6 +163,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
         console.log(`Next font to save: ${nextFont.text}`);
         setFontType(nextFont.text);
 
+        playSwitchSound(isSoundOn ? 0.5 : 0);
+
         // Save the next font into localStorage (fontType data from localStorage accessed in App.jsx)
         setTimeout(() => {
             console.log(`Saving new font data: ${nextFont.text}`);
@@ -185,6 +203,7 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
         console.log(`Next font to save: ${nextFont.text}`);
         setFontType(nextFont.text);
 
+        playSwitchSound(isSoundOn ? 0.5 : 0);
 
         setTimeout(() => {
             console.log(`Saving new font data: ${nextFont.text}`);
@@ -206,6 +225,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
             }
 
             setIsDefaultFontSize(true);
+
+            playSwitchSound(isSoundOn ? 0.5 : 0);
 
             // Change size
             const root = document.documentElement;
@@ -232,6 +253,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
 
             setIsDefaultFontSize(false);
 
+            playSwitchSound(isSoundOn ? 0.5 : 0);
+
             const root = document.documentElement;
             root.style.setProperty("--textXSmall", "0.8rem");
             root.style.setProperty("--textSmall", "0.9rem");
@@ -248,6 +271,47 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
             }));
         }
     }
+
+    const handleSoundClick = (e) => {
+        if (e.currentTarget.id === "sound-on") {
+
+            if (isSoundOn) {
+                return;
+            }
+
+            setIsSoundOn(true);
+
+            playSwitchSound(0.5);
+
+            setUserData(prev => ({
+                ...prev,
+                settings: {
+                    ...prev.settings,
+                    sound: "on"
+                }
+            }));
+        }
+
+         if (e.currentTarget.id === "sound-off") {
+            
+            if (!isSoundOn) {
+                return;
+            }
+
+            setIsSoundOn(false);
+            
+            playSwitchSound(0);
+
+            setUserData(prev => ({
+                ...prev,
+                settings: {
+                    ...prev.settings,
+                    sound: "off"
+                }
+            }));
+        }
+    }
+
 
     return (
         <div className="settings-page">
@@ -267,7 +331,7 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                         </defs>
                     </svg>
                     <div className="w-full h-100 absolute z-10 top-0 left-0 flex flex-col justify-evenly items-center">
-                        <div className="interface-theme-selector w-55 h-13 flex justify-between items-center border">
+                        <div className="interface-theme-selector w-55 h-13 flex justify-between items-center">
                             <p className="block text-primary text-medium">Interface</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
                                 <button
@@ -286,7 +350,7 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                                 </button>
                             </div>
                         </div>
-                        <div className="font-selector w-55 h-13 flex justify-between items-center  border">
+                        <div className="font-selector w-55 h-13 flex justify-between items-center">
                             <p className="block text-primary text-medium">Font</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
                                 <svg
@@ -305,29 +369,40 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
 
                             </div>
                         </div>
-                        <div className="text-size-selector w-55 flex justify-between items-center  h-13 border">
+                        <div className="text-size-selector w-55 flex justify-between items-center  h-13">
                             <p className="block text-primary text-medium">Text size</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
-                                <button 
-                                        id="default-size"
-                                        onClick={handleTextSizeClick}
-                                        className={`${isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
+                                <button
+                                    id="default-size"
+                                    onClick={handleTextSizeClick}
+                                    className={`${isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
                                 >
                                     Default
                                 </button>
-                                <button 
-                                        id="larger-size"
-                                        onClick={handleTextSizeClick}
-                                        className={`${!isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
+                                <button
+                                    id="larger-size"
+                                    onClick={handleTextSizeClick}
+                                    className={`${!isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
                                 >
                                     Larger
                                 </button>
                             </div>
                         </div>
-                        <div className="sound-selector w-55 flex justify-between items-center  h-13 border">
+                        <div className="sound-selector w-55 flex justify-between items-center  h-13">
                             <p className="block text-primary text-medium">Sound</p>
-                            <div className="w-25 h-9 bg-canvas rounded-md">
-
+                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
+                                <button 
+                                        id="sound-on"
+                                        onClick={handleSoundClick}
+                                        className={`${isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
+                                    ON
+                                </button>
+                                <button 
+                                        id="sound-off"
+                                        onClick={handleSoundClick}
+                                        className={`${!isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
+                                    OFF
+                                </button>
                             </div>
                         </div>
                     </div>

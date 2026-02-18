@@ -3,8 +3,13 @@ import { Routes, Route } from "react-router"
 import { MainPage } from './MainPage'
 import { RatingsPage } from './RatingsPage'
 import { getItem, setItem } from './utils/localStorage'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { SettingsPage } from './SettingsPage'
+import clickPop from "./assets/Sounds/ui-click-navigate-up-roy-s-noise-1-00-00.mp3";
+import clickReject from "./assets/Sounds/futuristic-ui-negative-selection-davies-aguirre-1-00-00.mp3";
+import submitSuccess from "./assets/Sounds/futuristic-ui-positive-selection-davies-aguirre-2-2-00-00.mp3";
+import expiryAlarm from "./assets/Sounds/ui-alarm-alert-bells-ra-music-1-00-02.mp3";
+import promiseCompleted from "./assets/Sounds/arcade-game-victory-chime-epic-stock-media-1-00-01.mp3";
 
 function App() {
 
@@ -122,6 +127,81 @@ function App() {
     return savedFont || "Inter";
   });
 
+
+  // To track sound on and off
+  const [isSoundOn, setIsSoundOn] = useState(() => {
+
+    const soundMode = userData?.settings?.sound;
+
+    let saved;
+
+    if (soundMode === "on") {
+      saved = true;
+    } else if (soundMode === "off") {
+      saved = false;
+    }
+
+    return saved || false;
+  });
+
+  // Pop Sound for standard clicks
+  const clickPopRef = useRef(null);
+
+  const playPopSound = (volume = 0.5) => {
+    if (!clickPopRef.current) {
+      clickPopRef.current = new Audio(clickPop);
+    }
+
+    clickPopRef.current.volume = volume;
+    clickPopRef.current.play();
+  }
+
+  // Reject sound for rejected clicks
+  const clickRejectRef = useRef(null);
+
+  const playRejectSound = (volume = 0.8) => {
+    if (!clickRejectRef.current) {
+      clickRejectRef.current = new Audio(clickReject);
+    }
+
+    clickRejectRef.current.volume = volume;
+    clickRejectRef.current.play();
+  }
+
+  // Successful submit sound
+  const successfulSubmit = useRef(null);
+
+  const playSuccessfulSubmit = (volume = 0.5) => {
+    if (!successfulSubmit.current) {
+      successfulSubmit.current = new Audio(submitSuccess);
+    }
+
+    successfulSubmit.current.volume = volume;
+    successfulSubmit.current.play();
+  }
+
+  const expiredPromise = useRef(null);
+
+  const playExpiryAlarm = (volume = 0.5) => {
+    if (!expiredPromise.current) {
+      expiredPromise.current = new Audio(expiryAlarm);
+    }
+
+    expiredPromise.current.volume = volume;
+    expiredPromise.current.play();
+  }
+
+  const completePromise = useRef(null);
+
+  const playCompletedPromise = (volume = 0.5) => {
+    if (!completePromise.current) {
+      completePromise.current = new Audio(promiseCompleted);
+    }
+
+    completePromise.current.volume = volume;
+    completePromise.current.play();
+  }
+
   // Persist userData to localStorage whenever it changes
   useEffect(() => {
     setItem("userData", userData);
@@ -129,11 +209,49 @@ function App() {
 
 
   return (
-    <div className={`${fontType === "Inter" && "inter-400"} ${fontType === "Roboto" && "roboto-200"} ${fontType === "Lato" && "lato-regular"}`}>
+    <div className={
+      `${fontType === "Inter" && "inter-400"} 
+      ${fontType === "Roboto" && "roboto-200"} 
+      ${fontType === "Lato" && "lato-regular"}`
+    }>
       <Routes>
-        <Route path="" element={<MainPage userData={userData} setUserData={setUserData} isDarkMode={isDarkMode} />} />
-        <Route path="/ratings" element={<RatingsPage userData={userData} isDarkMode={isDarkMode} />} />
-        <Route path="/settings" element={<SettingsPage userData={userData} setUserData={setUserData} fontType={fontType} setFontType={setFontType} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+        <Route 
+          path="" 
+          element={
+          <MainPage 
+            userData={userData} 
+            setUserData={setUserData} 
+            isDarkMode={isDarkMode} 
+            playPopSound={playPopSound} 
+            isSoundOn={isSoundOn} 
+            playRejectSound={playRejectSound} 
+            playSuccessfulSubmit={playSuccessfulSubmit} 
+            playExpiryAlarm={playExpiryAlarm} 
+            playCompletedPromise={playCompletedPromise} 
+          />} 
+        />
+        <Route 
+          path="/ratings" 
+          element={
+            <RatingsPage 
+            userData={userData} 
+            isDarkMode={isDarkMode} 
+            />} 
+        />
+        <Route 
+          path="/settings" 
+          element={
+            <SettingsPage 
+              userData={userData} 
+              setUserData={setUserData} 
+              fontType={fontType} 
+              setFontType={setFontType} 
+              isDarkMode={isDarkMode} 
+              setIsDarkMode={setIsDarkMode} 
+              isSoundOn={isSoundOn} 
+              setIsSoundOn={setIsSoundOn} 
+            />} 
+        />
       </Routes>
     </div>
 

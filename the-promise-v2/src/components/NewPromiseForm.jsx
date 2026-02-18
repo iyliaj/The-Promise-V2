@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 
-export function NewPromiseForm({ handleClick, setUserData, isDarkMode }) {
+export function NewPromiseForm({ handleClick, setUserData, isDarkMode, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit }) {
 
     const { register,
         handleSubmit,
@@ -13,7 +13,10 @@ export function NewPromiseForm({ handleClick, setUserData, isDarkMode }) {
 
     const onSubmit = async (data) => {
 
+
         console.log(data);
+
+        playPopSound(isSoundOn ? 0.5 : 0);
 
         const newId = crypto.randomUUID();
 
@@ -48,6 +51,15 @@ export function NewPromiseForm({ handleClick, setUserData, isDarkMode }) {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
+        playSuccessfulSubmit(isSoundOn ? 0.5 : 0);
+
+    }
+
+    const onError = (errors) => {
+        
+        playRejectSound(isSoundOn ? 0.5 : 0);
+
+        console.log(errors);
     }
 
     // To reset form fields after submitting
@@ -100,7 +112,7 @@ export function NewPromiseForm({ handleClick, setUserData, isDarkMode }) {
 
             <div className="w-full h-full absolute z-5 top-0 left-0 p-8">
                 <div className="text-inputs-section w-full h-[45%] flex flex-col">
-                    <form id="new-promise-form" onSubmit={handleSubmit(onSubmit)}>
+                    <form id="new-promise-form" onSubmit={handleSubmit(onSubmit, onError)}>
                         <section className="">
                             <label htmlFor="title" className="inline text-canvas">Title</label>
                             {errors.title && (<p className="text-[0.8rem] text-red-900 inline ml-2">{errors.title.message}</p>)}

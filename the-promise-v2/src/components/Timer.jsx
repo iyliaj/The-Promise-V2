@@ -1,7 +1,7 @@
 import { useRef,useState, useEffect } from "react";
 
 
-export function Timer({ updateExpiredPromise, promise }) {
+export function Timer({ updateExpiredPromise, promise, setIsExpired, playExpiryAlarm, isSoundOn }) {
 
     const hasExpiredRef = useRef(false);
 
@@ -33,8 +33,16 @@ export function Timer({ updateExpiredPromise, promise }) {
         if (currentTime <= 0 && !hasExpiredRef.current) {
             hasExpiredRef.current = true;
             updateExpiredPromise(promise.id);
+
+            setIsExpired(true);
+
+            playExpiryAlarm(isSoundOn ? 0.5 : 0);
+
+            setTimeout(() => {
+                setIsExpired(false);
+            }, 3000);
         }
-    }, [currentTime, updateExpiredPromise, promise.id]);
+    }, [currentTime, updateExpiredPromise, promise.id, setIsExpired, playExpiryAlarm, isSoundOn]);
 
     // For displaying time left
     let timeDisplay;

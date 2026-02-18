@@ -30,6 +30,12 @@
 
 }
 
+@layer components {
+    .latest-promise-card {
+        
+    }
+}
+
 /* Fonts */
 
 /* <weight>: Use a value from 100 to 900 */

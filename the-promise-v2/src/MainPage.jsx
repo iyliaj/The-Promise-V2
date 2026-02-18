@@ -8,7 +8,7 @@ import { setItem } from "./utils/localStorage";
 import "./MainPage.css";
 
 
-export function MainPage({ userData, setUserData, isDarkMode }) {
+export function MainPage({ userData, setUserData, isDarkMode, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit, playExpiryAlarm, playCompletedPromise }) {
 
 
     // Sorts data on load and every time promises data changes
@@ -42,8 +42,11 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
     // To track if all promises view window is open
     const [allPromisesView, setAllPromisesView] = useState(false);
 
+    const [isExpired, setIsExpired] = useState(false);
+
     const handleClick = () => {
         newPromiseStatus === false ? setNewPromiseStatus(true) : setNewPromiseStatus(false);
+        playPopSound(isSoundOn ? 0.4 : 0);
     }
 
     const handleCompletePromiseClick = () => {
@@ -119,12 +122,15 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
             };
         });
 
-        setCompletePromiseState(false);
+        playCompletedPromise();
+
+        setCompletePromiseState("loaded");
 
     }
 
     const handleViewAllPromises = () => {
         allPromisesView === false ? setAllPromisesView(true) : setAllPromisesView(false);
+        playPopSound(isSoundOn ? 0.4 : 0);
     }
 
     return (
@@ -162,7 +168,8 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
                     <div>
                         <button
                             onClick={handleViewAllPromises}
-                            className={`w-24 h-10 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} text-[0.9rem] rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2`}>
+                            className={`w-24 h-10 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} text-[0.9rem] rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2`}
+                        >
                             <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0.742762 8.46424C-0.247589 7.66375 -0.247587 6.15388 0.742763 5.35339L6.81119 0.44834C8.11907 -0.608808 10.0684 0.322069 10.0684 2.00377L10.0684 11.8139C10.0684 13.4956 8.11906 14.4264 6.81118 13.3693L0.742762 8.46424Z" fill="#D9D9D9" />
                             </svg>
@@ -179,9 +186,9 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
 
                     {/* New Promise is always on display in the Main Page */}
                     <div className="latest-promise-section w-full h-50 flex flex-col justify-around">
-                        <div className={`latest-promise w-full h-[90%] ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md p-5 relative`}>
+                        <div className={`latest-promise w-full h-[90%] ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md p-5 relative ${isExpired && "bg-red-950"}`}>
 
-                            {sortedPromises[0] && (
+                            {sortedPromises[0] && !isExpired && (
                                 <div className="w-full h-full">
                                     <div className="flex flex-col justify-around relative w-[90%]">
                                         <div className={`w-28 h-7 ${isDarkMode === "light" ? "bg-primary" : "bg-secondary"} rounded-md flex justify-center items-center`}>
@@ -247,7 +254,16 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
 
                                 </div>
                             )}
-                            {sortedPromises.length === 0 && (
+
+                            {isExpired && (
+                                <div className="w-full h-full">
+                                    <p className="text-[1.4rem] text-canvas">Promise Expired!</p>
+                                    <p className="text-[1rem] text-canvas">You're a hopeless fool</p>
+                                </div>
+                            )}
+
+
+                            {sortedPromises.length === 0 && !isExpired && (
                                 <div>
                                     <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-2xl`}>Character building<br></br>starts here.</p>
                                     <p className={`mt-2 text-[0.9rem] ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>Make a promise to yourself today.</p>
@@ -260,7 +276,7 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
                     {/* Displays by default and when cancel new promise button is clicked */}
                     {!newPromiseStatus && (
                         <div className="timer-more-promises w-full h-100 flex flex-col justify-around">
-                            <div className="latest-promise-timer w-full h-[24%] bg-secondary rounded-md flex justify-center items-center relative">
+                            <div className="latest-promise-timer w-full h-[24%] bg-secondary rounded-md flex justify-center items-center relative shadow-[0px_10px_30px_rgba(0,0,0,0.3)]">
                                 <svg width="371" height="209" viewBox="0 100 371 29" fill="none" xmlns="http://www.w3.org/2000/svg" className="object-cover w-full h-full" >
                                     <g clipPath="url(#clip0_32_271)">
                                         <path d="M0 50.3148L5.64229 54.5142C11.2653 58.6942 22.5498 67.0929 33.7765 70.5762C45.0224 74.0595 56.2297 72.6275 67.4756 66.7058C78.7022 60.7648 89.9868 50.3148 101.213 47.1798C112.459 44.0642 123.667 48.2442 134.913 52.0952C146.139 55.9268 157.424 59.4102 168.65 62.1775C179.896 64.9642 191.104 67.0155 202.35 64.9255C213.576 62.8355 224.861 56.5655 236.087 57.9975C247.333 59.4102 258.541 68.5056 269.787 73.7306C281.013 78.9556 292.298 80.3102 303.524 75.0852C314.77 69.8602 325.978 58.0555 337.224 60.1455C348.45 62.2549 359.735 78.2395 365.358 86.2512L371 94.2435V0H365.358C359.735 0 348.45 0 337.224 0C325.978 0 314.77 0 303.524 0C292.298 0 281.013 0 269.787 0C258.541 0 247.333 0 236.087 0C224.861 0 213.576 0 202.35 0C191.104 0 179.896 0 168.65 0C157.424 0 146.139 0 134.913 0C123.667 0 112.459 0 101.213 0C89.9868 0 78.7022 0 67.4756 0C56.2297 0 45.0224 0 33.7765 0C22.5498 0 11.2653 0 5.64229 0H0V50.3148Z" fill="#CCD5E6" />
@@ -283,6 +299,9 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
                                             promise={sortedPromises[0]}
                                             sortedPromises={sortedPromises}
                                             updateExpiredPromise={updateExpiredPromise}
+                                            setIsExpired={setIsExpired}
+                                            playExpiryAlarm={playExpiryAlarm}
+                                            isSoundOn={isSoundOn}
                                         />
                                     </div>
                                 )}
@@ -316,7 +335,7 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
 
                                         {sortedPromises[1] && (
                                             <p className={`${isDarkMode === "light" ? "text-primary" : "text-canvas"} text-[0.8rem]`}>
-                                                {sortedPromises[1].title.length > 16 ? sortedPromises[1].title.slice(0, 16) + "..." : sortedPromises[2].title}
+                                                {sortedPromises[1].title.length > 16 ? sortedPromises[1].title.slice(0, 16) + "..." : sortedPromises[1].title}
                                             </p>
                                         )}
                                     </div>
@@ -365,6 +384,10 @@ export function MainPage({ userData, setUserData, isDarkMode }) {
                             handleClick={handleClick}
                             setUserData={setUserData}
                             isDarkMode={isDarkMode}
+                            playPopSound={playPopSound}
+                            isSoundOn={isSoundOn}
+                            playRejectSound={playRejectSound}
+                            playSuccessfulSubmit={playSuccessfulSubmit}
                         />
                     )}
 
