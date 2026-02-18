@@ -28,17 +28,17 @@ function App() {
       promises: [
         {
           id: 1,
-          title: "Cook Pizza",
-          description: "Finish cooking Napolitana Pizza",
-          date: "2026-02-10",
+          title: "Welcome to The Promise",
+          description: "The Promise is a timed to-do list app for personal development",
+          date: "2026-03-10",
           time: "22:53",
           status: "active"
         },
         {
           id: 2,
-          title: "Run like a bitch",
-          description: "Burn some calories",
-          date: "2026-02-10",
+          title: "Operates 100% based on your honesty, for now",
+          description: "Further development is in the works",
+          date: "2026-03-12",
           time: "23:00",
           status: "active"
         }
