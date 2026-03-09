@@ -3,6 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* Use class-based dark mode (toggled via document.documentElement.classList) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
     /* Deafault values */
     --textXSmall: 0.7rem;
@@ -84,11 +87,15 @@
     }
 
     .view-all-promises-back {
-        @apply w-24 h-10 text-small rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2
+        @apply w-24 h-10 text-small rounded-md mt-5 hover:opacity-80 hover:text-canvas active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2 px-5
     }
 
     .promise-card {
         @apply w-[90%] rounded-md p-4 
+    }
+
+    .settings-container svg {
+        @apply w-full
     }
 }
 

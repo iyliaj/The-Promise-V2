@@ -1,9 +1,9 @@
 
 
 
-export function BottomNavbar({ isDarkMode, isDesktopOrLaptop, handleRatingsViewClick, handleSettingsViewClick }) {
+export function BottomNavbar({ isDesktopOrLaptop, handleRatingsViewClick, handleSettingsViewClick }) {
     return (
-        <div className={`${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} bottom-navbar w-full h-24 absolute ${isDesktopOrLaptop ? "-top-2 -left-5 rounded-md scale-80" : "bottom-0 left-0"} z-10 flex justify-around items-center px-8 lg:w-[30%]`}>
+        <div className={`bg-primary dark:bg-dark-primary bottom-navbar w-full h-24 absolute ${isDesktopOrLaptop ? "-top-2 -left-5 rounded-md scale-80" : "bottom-0 left-0"} z-10 flex justify-around items-center px-8 lg:w-[30%]`}>
             {!isDesktopOrLaptop && (
                 <a href="/">
                     <div className="mainpage-link w-25 h-20 rounded-md flex justify-center items-center flex-col hover: group">

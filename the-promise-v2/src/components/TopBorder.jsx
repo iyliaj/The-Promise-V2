@@ -1,8 +1,8 @@
 
 
 
-export function TopBorder({ isDarkMode }) {
+export function TopBorder() {
     return (
-        <div className={`top-border w-full h-14 absolute top-0 z-10 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"}`}></div>
+        <div className="top-border w-full h-14 absolute top-0 z-10 bg-primary dark:bg-dark-primary"></div>
     )
 }

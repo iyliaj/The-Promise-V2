@@ -3,7 +3,7 @@ import { TopBorder } from "./components/TopBorder";
 
 
 
-export function RatingsPage({ userData, isDarkMode, isDesktopOrLaptop, handleRatingsViewClick }) {
+export function RatingsPage({ userData, isDesktopOrLaptop, handleRatingsViewClick }) {
 
     // Should be processed in a backend in the future
     const completedPromises = [...userData.ratings.promisesStatus.completedPromises].length;
@@ -36,7 +36,7 @@ export function RatingsPage({ userData, isDarkMode, isDesktopOrLaptop, handleRat
                 <TopBorder />
             )}
 
-            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mt-14 h-157"} px-10 w-full flex flex-col justify-evenly items-center ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"}`}>
+            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mt-14 h-157"} px-10 w-full flex flex-col justify-evenly items-center bg-canvas dark:bg-secondary`}>
                 <div className="top-section w-40 h-20 flex justify-evenly items-center">
                     <div className="flex justify-center items-center">
                         <svg width="56" height="62" viewBox="0 0 46 52" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,22 +45,22 @@ export function RatingsPage({ userData, isDarkMode, isDesktopOrLaptop, handleRat
 
                     </div>
                     <div className="score-section flex flex-col justify-center items-center">
-                        <p className={`score text-medium ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} ml-2`}>Score</p>
-                        <p className={`rating-score text-extra-large ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{score}</p>
+                        <p className="score text-medium text-primary dark:text-dark-primary ml-2">Score</p>
+                        <p className="rating-score text-extra-large text-primary dark:text-dark-primary">{score}</p>
                     </div>
                 </div>
 
                 <div className="rating-text-section flex flex-col justify-center items-center">
-                    <p className={`text-large ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"}`}>{rating}</p>
-                    <p className={`text-medium ${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} mt-4`}>{ratingInfo}</p>
+                    <p className="text-large text-primary dark:text-dark-primary">{rating}</p>
+                    <p className="text-medium text-primary dark:text-dark-primary mt-4">{ratingInfo}</p>
                 </div>
 
-                <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-secondary" : "bg-extra"} rounded-md p-4`}>
-                    <p className={`${isDarkMode === "light" ? "text-primary" : "text-dark-primary"} text-medium`}>Your trends</p>
+                <div className="w-full h-40 bg-secondary dark:bg-extra rounded-md p-4">
+                    <p className="text-primary dark:text-dark-primary text-medium">Your trends</p>
                     <p className="text-primary text-small">(Coming Soon)</p>
                 </div>
 
-                <div className={`w-full h-40 ${isDarkMode === "light" ? "bg-primary" : "bg-dark-primary"} rounded-md p-4`}>
+                <div className="w-full h-40 bg-primary dark:bg-dark-primary rounded-md p-4">
                     <p className="text-canvas text-medium">Suggestions</p>
                     <p className="text-canvas text-small">(Coming Soon)</p>
                 </div>
@@ -69,13 +69,7 @@ export function RatingsPage({ userData, isDarkMode, isDesktopOrLaptop, handleRat
                     <div>
                         <button
                             onClick={handleRatingsViewClick}
-                            className={
-                                `view-all-promises-back 
-                                            ${isDarkMode === "light" ?
-                                    "bg-primary" :
-                                    "bg-dark-primary"
-                                }`
-                            }
+                            className="view-all-promises-back bg-primary dark:bg-dark-primary"
                         >
                             <svg
                                 width="11"

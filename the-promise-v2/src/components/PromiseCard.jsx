@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import { Timer } from "./Timer";
 import "./PromiseCard.css";
 
-export function PromiseCard({ promise, updateExpiredPromise, isDarkMode }) {
+export function PromiseCard({ promise, updateExpiredPromise }) {
 
     // To track whether promise card is expanded or not
     const [promiseExpand, setPromiseExpand] = useState("loaded");
@@ -101,19 +101,15 @@ export function PromiseCard({ promise, updateExpiredPromise, isDarkMode }) {
             onClick={handleClick}
             className={
                 `promise-card 
-                ${isDarkMode === "light" ? 
-                    "bg-secondary" : 
-                    "bg-dark-primary"} 
-                ${promiseExpand === "expand" && 
-                    "promise-card-expand"} 
-                    ${promiseExpand === "collapse" && 
-                        "promise-card-collapse"}
+                bg-secondary dark:bg-dark-primary
+                ${promiseExpand === "expand" && "promise-card-expand"} 
+                ${promiseExpand === "collapse" && "promise-card-collapse"}
             `}
         >
             {isExpanded && (
                 <div>
                     <p className="text-canvas text-medium">{promise.title}</p>
-                    <p className={`text-small ${isDarkMode === "light" ? "text-primary" : "text-secondary"} inline-block w-[94%] wrap-break-word`}>{promise.description}</p>
+                    <p className="text-small text-primary dark:text-secondary inline-block w-[94%] wrap-break-word">{promise.description}</p>
                 </div>
             )}
 
@@ -122,7 +118,7 @@ export function PromiseCard({ promise, updateExpiredPromise, isDarkMode }) {
                     <p className="text-canvas text-medium">
                         {promise.title.length > 20 ? promise.title.slice(0, 20) + "..." : promise.title}
                     </p>
-                    <p className={`text-small ${isDarkMode === "light" ? "text-primary" : "text-secondary"}`}>
+                    <p className="text-small text-primary dark:text-secondary">
                         {promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}
                     </p>
                 </div>

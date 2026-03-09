@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 
-export function NewPromiseForm({ handleClick, setUserData, isDarkMode, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit, isDesktopOrLaptop }) {
+export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit, isDesktopOrLaptop }) {
 
     const { register,
         handleSubmit,
@@ -172,7 +172,7 @@ export function NewPromiseForm({ handleClick, setUserData, isDarkMode, playPopSo
                         disabled={isSubmitting}
                         form="new-promise-form"
                         type="submit"
-                        className={`w-26 h-14 ${isDarkMode === "light" ? "bg-secondary" : "bg-dark-primary"} rounded-md text-[0.9rem] hover:opacity-80 active:scale-98 ${isDarkMode === "light" ? "text-primary" : "text-canvas"} cursor-pointer`}>{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
+                        className="w-26 h-14 bg-secondary dark:bg-dark-primary rounded-md text-[0.9rem] hover:opacity-80 active:scale-98 text-primary dark:text-canvas cursor-pointer">{isSubmitting ? "Adding Promise..." : "Add Promise"}</button>
                     <button
                         onClick={handleClick}
                         className="w-26 h-14 border rounded-md text-[0.9rem] text-canvas hover:opacity-80 hover:text-canvas active:bg-gray-500 cursor-pointer">Close</button>

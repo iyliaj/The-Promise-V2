@@ -105,18 +105,14 @@ function App() {
 
   });
 
-  // Track changes for Dark/ Light mode
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-
-    // Retrieve full data from saved key
-    const savedData = userData;
-
-    // Extract any saved theme from previous session
-    const savedTheme = savedData?.settings?.theme;
-
-    // Load "light" as default if none previously saved
-    return savedTheme || "light";
-
+  // Apply saved theme to <html> class synchronously before first render
+  useState(() => {
+    const savedTheme = userData?.settings?.theme;
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   });
 
   // Track changes for font settings
@@ -259,7 +255,6 @@ function App() {
             <MainPage
               userData={userData}
               setUserData={setUserData}
-              isDarkMode={isDarkMode}
               playPopSound={playPopSound}
               isSoundOn={isSoundOn}
               playRejectSound={playRejectSound}
@@ -268,7 +263,6 @@ function App() {
               playCompletedPromise={playCompletedPromise}
               fontType={fontType}
               setFontType={setFontType}
-              setIsDarkMode={setIsDarkMode}
               setIsSoundOn={setIsSoundOn}
               isDefaultFontSize={isDefaultFontSize}
               setIsDefaultFontSize={setIsDefaultFontSize}
@@ -279,7 +273,6 @@ function App() {
           element={
             <RatingsPage
               userData={userData}
-              isDarkMode={isDarkMode}
             />}
         />
         <Route
@@ -290,8 +283,6 @@ function App() {
               setUserData={setUserData}
               fontType={fontType}
               setFontType={setFontType}
-              isDarkMode={isDarkMode}
-              setIsDarkMode={setIsDarkMode}
               isSoundOn={isSoundOn}
               setIsSoundOn={setIsSoundOn}
               isDefaultFontSize={isDefaultFontSize}
