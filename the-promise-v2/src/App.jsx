@@ -266,6 +266,12 @@ function App() {
               playSuccessfulSubmit={playSuccessfulSubmit}
               playExpiryAlarm={playExpiryAlarm}
               playCompletedPromise={playCompletedPromise}
+              fontType={fontType}
+              setFontType={setFontType}
+              setIsDarkMode={setIsDarkMode}
+              setIsSoundOn={setIsSoundOn}
+              isDefaultFontSize={isDefaultFontSize}
+              setIsDefaultFontSize={setIsDefaultFontSize}
             />}
         />
         <Route

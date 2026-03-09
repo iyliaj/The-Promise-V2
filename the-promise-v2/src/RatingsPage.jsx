@@ -3,7 +3,7 @@ import { TopBorder } from "./components/TopBorder";
 
 
 
-export function RatingsPage({ userData, isDarkMode }) {
+export function RatingsPage({ userData, isDarkMode, isDesktopOrLaptop, handleRatingsViewClick }) {
 
     // Should be processed in a backend in the future
     const completedPromises = [...userData.ratings.promisesStatus.completedPromises].length;
@@ -31,9 +31,12 @@ export function RatingsPage({ userData, isDarkMode }) {
     }
 
     return (
-        <div className="ratings-page-container">
-            <TopBorder />
-            <div className={`ratings-content-container mt-14 px-10 w-full h-157 flex flex-col justify-evenly items-center ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"}`}>
+        <div className={`ratings-page-container ${isDesktopOrLaptop ? "h-full" : ""}`}>
+            {!isDesktopOrLaptop && (
+                <TopBorder />
+            )}
+
+            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mt-14 h-157"} px-10 w-full flex flex-col justify-evenly items-center ${isDarkMode === "light" ? "bg-canvas" : "bg-secondary"}`}>
                 <div className="top-section w-40 h-20 flex justify-evenly items-center">
                     <div className="flex justify-center items-center">
                         <svg width="56" height="62" viewBox="0 0 46 52" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,8 +64,42 @@ export function RatingsPage({ userData, isDarkMode }) {
                     <p className="text-canvas text-medium">Suggestions</p>
                     <p className="text-canvas text-small">(Coming Soon)</p>
                 </div>
+
+                {isDesktopOrLaptop && (
+                    <div>
+                        <button
+                            onClick={handleRatingsViewClick}
+                            className={
+                                `view-all-promises-back 
+                                            ${isDarkMode === "light" ?
+                                    "bg-primary" :
+                                    "bg-dark-primary"
+                                }`
+                            }
+                        >
+                            <svg
+                                width="11"
+                                height="14"
+                                viewBox="0 0 11 14"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0.742762 8.46424C-0.247589 7.66375 -0.247587 6.15388 0.742763 5.35339L6.81119 0.44834C8.11907 -0.608808 10.0684 0.322069 10.0684 2.00377L10.0684 11.8139C10.0684 13.4956 8.11906 14.4264 6.81118 13.3693L0.742762 8.46424Z" fill="#D9D9D9" />
+                            </svg>
+
+                            Back
+                        </button>
+                    </div>
+                )}
+
             </div>
-            <BottomNavbar />
+
+
+
+            {!isDesktopOrLaptop && (
+                <BottomNavbar />
+            )}
+
         </div>
     )
 }

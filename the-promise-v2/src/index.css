@@ -63,12 +63,24 @@
         @apply  w-full h-[24%] bg-secondary rounded-md flex justify-center items-center relative shadow-[0px_10px_30px_rgba(0,0,0,0.3)]
     }
 
+    .latest-promise-timer-lg {
+        @apply  w-full h-[20%] bg-secondary rounded-md flex justify-center items-center relative shadow-[0px_10px_30px_rgba(0,0,0,0.3)]
+    }
+
     .new-promise-btn {
         @apply  text-medium w-full h-14 rounded-md hover:opacity-95 hover:text-secondary active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2
     }
 
+    .new-promise-btn-top {
+        @apply  text-medium w-full h-20 rounded-md hover:opacity-95 hover:text-secondary active:scale-98 cursor-pointer text-canvas flex justify-center items-center gap-2
+    }
+
     .view-all-promises {
         @apply text-medium w-full h-14 border rounded-md hover:opacity-60 active:scale-98 cursor-pointer flex justify-center items-center gap-2
+    }
+
+    .view-all-promises-top {
+        @apply text-medium w-full h-20 border rounded-md hover:opacity-60 active:scale-98 cursor-pointer flex justify-center items-center gap-2
     }
 
     .view-all-promises-back {

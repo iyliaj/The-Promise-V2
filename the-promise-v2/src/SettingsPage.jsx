@@ -2,10 +2,11 @@ import { useState, useRef } from "react";
 import { BottomNavbar } from "./components/BottomNavbar";
 import { TopBorder } from "./components/TopBorder";
 import switchSound from "./assets/Sounds/ui-simple-button-click-epic-stock-media-2-2-00-00.mp3";
+import { ThemeSelector } from "./components/ThemeSelector";
 
 
 
-export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode, isSoundOn, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize }) {
+export function SettingsPage({ userData, setUserData, fontType, setFontType, isDarkMode, setIsDarkMode, isSoundOn, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize, isDesktopOrLaptop, handleSettingsViewClick }) {
 
 
     const toggleAudioRef = useRef(null);
@@ -258,14 +259,14 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
             }));
         }
 
-         if (e.currentTarget.id === "sound-off") {
-            
+        if (e.currentTarget.id === "sound-off") {
+
             if (!isSoundOn) {
                 return;
             }
 
             setIsSoundOn(false);
-            
+
             playSwitchSound(0);
 
             setUserData(prev => ({
@@ -281,8 +282,11 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
 
     return (
         <div className="settings-page">
-            <TopBorder />
-            <div className={`${isDarkMode === "dark" ? "bg-primary" : "bg-canvas"} settings-page-container mt-14 h-157 p-5`}>
+            {!isDesktopOrLaptop && (
+                <TopBorder />
+            )}
+
+            <div className={`${isDarkMode === "dark" ? "bg-primary" : "bg-canvas"} settings-page-container ${isDesktopOrLaptop ? "rounded-md w-full h-155" : "mt-14 h-157"} p-5`}>
                 <div className="settings-container w-full h-130 bg-secondary mt-6 rounded-md overflow-hidden relative">
                     <svg width="342" height="830" viewBox="0 40 366 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_38_46)">
@@ -297,27 +301,11 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                         </defs>
                     </svg>
                     <div className="w-full h-100 absolute z-10 top-0 left-0 flex flex-col justify-evenly items-center">
-                        <div className="interface-theme-selector w-55 h-13 flex justify-between items-center">
-                            <p className="block text-primary text-medium">
-                                Interface
-                            </p>
-                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
-                                <button
-                                    id="light-mode"
-                                    onClick={handleClick}
-                                    className={`${isDarkMode === "light" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer w-11`}
-                                >
-                                    Light
-                                </button>
-                                <button
-                                    id="dark-mode"
-                                    onClick={handleClick}
-                                    className={`${isDarkMode === "dark" ? "text-canvas bg-primary" : "text-primary bg-canvas"} text-[0.8rem] p-1 rounded-md cursor-pointer w-11`}
-                                >
-                                    Dark
-                                </button>
-                            </div>
-                        </div>
+                        <ThemeSelector 
+                            handleClick={handleClick}
+                            isDarkMode={isDarkMode}
+                            
+                        />
                         <div className="font-selector w-55 h-13 flex justify-between items-center">
                             <p className="block text-primary text-medium">Font</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
@@ -359,24 +347,59 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isD
                         <div className="sound-selector w-55 flex justify-between items-center  h-13">
                             <p className="block text-primary text-medium">Sound</p>
                             <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
-                                <button 
-                                        id="sound-on"
-                                        onClick={handleSoundClick}
-                                        className={`${isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
+                                <button
+                                    id="sound-on"
+                                    onClick={handleSoundClick}
+                                    className={`${isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
                                     ON
                                 </button>
-                                <button 
-                                        id="sound-off"
-                                        onClick={handleSoundClick}
-                                        className={`${!isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
+                                <button
+                                    id="sound-off"
+                                    onClick={handleSoundClick}
+                                    className={`${!isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
                                     OFF
                                 </button>
                             </div>
                         </div>
+
+                        {isDesktopOrLaptop && (
+                            <div className="">
+                                <button
+                                    onClick={handleSettingsViewClick}
+                                    className={
+                                        `view-all-promises-back 
+                                            ${isDarkMode === "light" ?
+                                            "bg-primary" :
+                                            "bg-dark-primary"
+                                        }`
+                                    }
+                                >
+                                    <svg
+                                        width="11"
+                                        height="14"
+                                        viewBox="0 0 11 14"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path d="M0.742762 8.46424C-0.247589 7.66375 -0.247587 6.15388 0.742763 5.35339L6.81119 0.44834C8.11907 -0.608808 10.0684 0.322069 10.0684 2.00377L10.0684 11.8139C10.0684 13.4956 8.11906 14.4264 6.81118 13.3693L0.742762 8.46424Z" fill="#D9D9D9" />
+                                    </svg>
+
+                                    Back
+                                </button>
+                            </div>
+                        )}
+
                     </div>
+
+
+
                 </div>
             </div>
-            <BottomNavbar />
+
+            {!isDesktopOrLaptop && (
+                <BottomNavbar />
+            )}
+
         </div>
     )
 }
