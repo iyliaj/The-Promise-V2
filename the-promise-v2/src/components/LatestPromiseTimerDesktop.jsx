@@ -1,7 +1,11 @@
+import { useContext } from "react"
 import { Timer } from "./Timer"
+import { ExpiryAlarmContext } from "../contexts/ExpiryAlarmContext";
 
+export function LatestPromiseTimerDesktop({ sortedPromises, updateExpiredPromise, setIsExpired, isSoundOn }) {
 
-export function LatestPromiseTimerDesktop({ sortedPromises, updateExpiredPromise, setIsExpired, playExpiryAlarm, isSoundOn }) {
+    const playExpiryAlarm = useContext(ExpiryAlarmContext);
+
     return (
         <div className="latest-promise-timer-lg overflow-hidden">
             <svg

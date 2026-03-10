@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { BottomNavbar } from "./components/BottomNavbar";
 import { TopBorder } from "./components/TopBorder";
 import switchSound from "./assets/Sounds/ui-simple-button-click-epic-stock-media-2-2-00-00.mp3";
@@ -7,10 +7,12 @@ import { FontSelector } from "./components/FontSelector";
 import { TextSizeSelector } from "./components/TextSizeSelector";
 import { SoundSelector } from "./components/SoundSelector";
 import { BackButton } from "./components/BackButton";
+import { FontTypeContext } from "./contexts/FontTypeContext";
 
 
+export function SettingsPage({ userData, setUserData, setFontType, isSoundOn, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize, isDesktopOrLaptop, handleSettingsViewClick }) {
 
-export function SettingsPage({ userData, setUserData, fontType, setFontType, isSoundOn, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize, isDesktopOrLaptop, handleSettingsViewClick }) {
+    const fontType = useContext(FontTypeContext);
 
     const toggleAudioRef = useRef(null);
 
@@ -322,7 +324,6 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isS
                             leftIsVisible={leftIsVisible}
                             rightIsVisible={rightIsVisible}
                             handleRightClick={handleRightClick}
-                            fontType={fontType}
                         />
                         <TextSizeSelector 
                             handleTextSizeClick={handleTextSizeClick}

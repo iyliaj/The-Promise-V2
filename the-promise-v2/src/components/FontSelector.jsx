@@ -1,7 +1,11 @@
+import { useContext } from "react";
+import { FontTypeContext } from "../contexts/FontTypeContext";
 
 
+export function FontSelector({ handleLeftClick, handleRightClick, leftIsVisible, rightIsVisible }) {
 
-export function FontSelector({ handleLeftClick, handleRightClick, fontType, leftIsVisible, rightIsVisible }) {
+    const fontType = useContext(FontTypeContext);
+
     return (
         <div className="font-selector w-55 h-13 flex justify-between items-center">
             <p className="block text-primary text-medium">Font</p>

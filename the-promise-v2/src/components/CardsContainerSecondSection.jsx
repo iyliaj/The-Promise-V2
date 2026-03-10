@@ -1,7 +1,11 @@
 import { Timer } from "./Timer"
+import { ExpiryAlarmContext } from "../contexts/ExpiryAlarmContext"
+import { useContext } from "react"
 
+export function CardsContainerSecondSection({ isDesktopOrLaptop, sortedPromises, updateExpiredPromise, setIsExpired, isSoundOn, handleClick, handleViewAllPromises }) {
 
-export function CardsContainerSecondSection({ isDesktopOrLaptop, sortedPromises, updateExpiredPromise, setIsExpired, playExpiryAlarm, isSoundOn, handleClick, handleViewAllPromises }) {
+    const playExpiryAlarm = useContext(ExpiryAlarmContext);
+
     return (
         <div className={`cards-container-second-section w-full ${isDesktopOrLaptop ? "h-full py-3" : "h-100"} flex flex-col justify-around`}>
             {!isDesktopOrLaptop && (

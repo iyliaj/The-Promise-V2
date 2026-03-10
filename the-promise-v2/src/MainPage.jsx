@@ -17,7 +17,7 @@ import { LatestPromiseSection } from "./components/LatestPromiseSection";
 import { CardsContainerSecondSection } from "./components/CardsContainerSecondSection";
 
 
-export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit, playExpiryAlarm, playCompletedPromise, fontType, setFontType, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize }) {
+export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playCompletedPromise, setFontType, setIsSoundOn, isDefaultFontSize, setIsDefaultFontSize }) {
 
     // Sorts data on load and every time promises data changes
     const sortedPromises = useMemo(() => {
@@ -359,7 +359,6 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                     sortedPromises={sortedPromises}
                                     updateExpiredPromise={updateExpiredPromise}
                                     setIsExpired={setIsExpired}
-                                    playExpiryAlarm={playExpiryAlarm}
                                     isSoundOn={isSoundOn}
                                 />
                             )}
@@ -381,7 +380,6 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                         sortedPromises={sortedPromises}
                                         updateExpiredPromise={updateExpiredPromise}
                                         setIsExpired={setIsExpired}
-                                        playExpiryAlarm={playExpiryAlarm}
                                         isSoundOn={isSoundOn}
                                         handleClick={handleClick}
                                         handleViewAllPromises={handleViewAllPromises}
@@ -395,8 +393,6 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                     setUserData={setUserData}
                                     playPopSound={playPopSound}
                                     isSoundOn={isSoundOn}
-                                    playRejectSound={playRejectSound}
-                                    playSuccessfulSubmit={playSuccessfulSubmit}
                                     isDesktopOrLaptop={isDesktopOrLaptop}
                                 />
                             )}
@@ -416,8 +412,6 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                 setUserData={setUserData}
                                 playPopSound={playPopSound}
                                 isSoundOn={isSoundOn}
-                                playRejectSound={playRejectSound}
-                                playSuccessfulSubmit={playSuccessfulSubmit}
                                 isDesktopOrLaptop={isDesktopOrLaptop}
                             />
                         </div>
@@ -446,7 +440,6 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                             <SettingsPage
                                 userData={userData}
                                 setUserData={setUserData}
-                                fontType={fontType}
                                 setFontType={setFontType}
                                 isSoundOn={isSoundOn}
                                 setIsSoundOn={setIsSoundOn}

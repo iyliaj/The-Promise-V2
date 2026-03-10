@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { RejectSoundContext } from "./../contexts/RejectSoundContext";
+import { PlaySuccessfulSubmitContext } from "./../contexts/PlaySuccessfulSubmitContext";
 
 
-export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSoundOn, playRejectSound, playSuccessfulSubmit, isDesktopOrLaptop }) {
+export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSoundOn, isDesktopOrLaptop }) {
 
     const { register,
         handleSubmit,
@@ -10,6 +12,9 @@ export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSound
         watch,
         formState: { errors, isSubmitting, isSubmitSuccessful }
     } = useForm();
+
+    const playRejectSound = useContext(RejectSoundContext);
+    const playSubmitSuccess = useContext(PlaySuccessfulSubmitContext);
 
     const onSubmit = async (data) => {
 
@@ -51,7 +56,7 @@ export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSound
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        playSuccessfulSubmit(isSoundOn ? 0.5 : 0);
+        playSubmitSuccess(isSoundOn ? 0.5 : 0);
 
     }
 

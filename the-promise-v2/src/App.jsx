@@ -10,6 +10,25 @@ import clickReject from "./assets/Sounds/futuristic-ui-negative-selection-davies
 import submitSuccess from "./assets/Sounds/futuristic-ui-positive-selection-davies-aguirre-2-2-00-00.mp3";
 import expiryAlarm from "./assets/Sounds/ui-alarm-alert-bells-ra-music-1-00-02.mp3";
 import promiseCompleted from "./assets/Sounds/arcade-game-victory-chime-epic-stock-media-1-00-01.mp3";
+import { RejectSoundContext } from './contexts/RejectSoundContext';
+import { PlaySuccessfulSubmitContext } from "./contexts/PlaySuccessfulSubmitContext";
+import { ExpiryAlarmContext } from './contexts/ExpiryAlarmContext';
+import { FontTypeContext } from './contexts/FontTypeContext';
+
+function GlobalProviders({ children, playRejectSound, playSuccessfulSubmit, playExpiryAlarm, fontType }) {
+  return (
+    <FontTypeContext.Provider value={fontType}>
+      <ExpiryAlarmContext.Provider value={playExpiryAlarm}>
+        <PlaySuccessfulSubmitContext.Provider value={playSuccessfulSubmit}>
+          <RejectSoundContext.Provider value={playRejectSound}>
+            {children}
+          </RejectSoundContext.Provider>
+        </PlaySuccessfulSubmitContext.Provider>
+      </ExpiryAlarmContext.Provider>
+    </FontTypeContext.Provider>
+  )
+}
+
 
 function App() {
 
@@ -242,54 +261,61 @@ function App() {
     return true;
   });
 
+
   return (
     <div className={
       `${fontType === "Inter" && "inter-400"} 
       ${fontType === "Roboto" && "roboto-200"} 
       ${fontType === "Lato" && "lato-regular"}`
     }>
-      <Routes>
-        <Route
-          path=""
-          element={
-            <MainPage
-              userData={userData}
-              setUserData={setUserData}
-              playPopSound={playPopSound}
-              isSoundOn={isSoundOn}
-              playRejectSound={playRejectSound}
-              playSuccessfulSubmit={playSuccessfulSubmit}
-              playExpiryAlarm={playExpiryAlarm}
-              playCompletedPromise={playCompletedPromise}
-              fontType={fontType}
-              setFontType={setFontType}
-              setIsSoundOn={setIsSoundOn}
-              isDefaultFontSize={isDefaultFontSize}
-              setIsDefaultFontSize={setIsDefaultFontSize}
-            />}
-        />
-        <Route
-          path="/ratings"
-          element={
-            <RatingsPage
-              userData={userData}
-            />}
-        />
-        <Route
-          path="/settings"
-          element={
-            <SettingsPage
-              userData={userData}
-              setUserData={setUserData}
-              fontType={fontType}
-              setFontType={setFontType}
-              isSoundOn={isSoundOn}
-              setIsSoundOn={setIsSoundOn}
-              isDefaultFontSize={isDefaultFontSize}
-              setIsDefaultFontSize={setIsDefaultFontSize}
-            />}
-        />
-      </Routes>
+      <GlobalProviders
+        playRejectSound={playRejectSound}
+        playSuccessfulSubmit={playSuccessfulSubmit}
+        playExpiryAlarm={playExpiryAlarm}
+        fontType={fontType}
+      >
+        <Routes>
+          <Route
+            path=""
+            element={
+
+              <MainPage
+                userData={userData}
+                setUserData={setUserData}
+                playPopSound={playPopSound}
+                isSoundOn={isSoundOn}
+                playCompletedPromise={playCompletedPromise}
+                setFontType={setFontType}
+                setIsSoundOn={setIsSoundOn}
+                isDefaultFontSize={isDefaultFontSize}
+                setIsDefaultFontSize={setIsDefaultFontSize}
+              />
+
+            }
+          />
+          <Route
+            path="/ratings"
+            element={
+              <RatingsPage
+                userData={userData}
+              />}
+          />
+          <Route
+            path="/settings"
+            element={
+              <SettingsPage
+                userData={userData}
+                setUserData={setUserData}
+                fontType={fontType}
+                setFontType={setFontType}
+                isSoundOn={isSoundOn}
+                setIsSoundOn={setIsSoundOn}
+                isDefaultFontSize={isDefaultFontSize}
+                setIsDefaultFontSize={setIsDefaultFontSize}
+              />}
+          />
+        </Routes>
+      </GlobalProviders>
     </div>
 
   )
