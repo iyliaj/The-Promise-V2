@@ -3,6 +3,10 @@ import { BottomNavbar } from "./components/BottomNavbar";
 import { TopBorder } from "./components/TopBorder";
 import switchSound from "./assets/Sounds/ui-simple-button-click-epic-stock-media-2-2-00-00.mp3";
 import { ThemeSelector } from "./components/ThemeSelector";
+import { FontSelector } from "./components/FontSelector";
+import { TextSizeSelector } from "./components/TextSizeSelector";
+import { SoundSelector } from "./components/SoundSelector";
+import { BackButton } from "./components/BackButton";
 
 
 
@@ -293,6 +297,8 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isS
 
             <div className={`bg-canvas dark:bg-primary settings-page-container ${isDesktopOrLaptop ? "rounded-md w-full h-155" : "mt-14 h-157"} p-5`}>
                 <div className="settings-container w-full h-130 bg-secondary mt-6 rounded-md overflow-hidden relative">
+
+                    {/* SVG background design for the container */}
                     <svg height="830" viewBox="0 0 342 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_38_46)">
                             <path d="M0 61.2837L5.20125 67.4443C10.3847 73.5868 20.7872 85.9078 31.1362 91.7261C41.5031 97.5444 51.8344 96.8959 62.2013 91.0596C72.5503 85.2413 82.9528 74.2533 93.3019 68.435C103.669 62.5987 114 61.9502 124.367 63.8596C134.716 65.787 145.118 70.2903 155.467 74.1632C165.834 78.036 176.166 81.2784 186.532 79.0268C196.882 76.7751 207.284 69.0294 217.633 70.3444C228 71.6774 238.331 82.053 248.698 85.6376C259.047 89.2043 269.45 85.9619 279.799 81.4045C290.166 76.8292 300.497 70.9568 310.864 74.1992C321.213 77.4416 331.615 89.7987 336.799 95.9953L342 102.174V78.3963L336.799 70.9568C331.615 63.4994 321.213 48.6204 310.864 46.657C300.497 44.7115 290.166 55.6996 279.799 60.5632C269.45 65.4268 259.047 64.1658 248.698 59.3023C238.331 54.4387 228 45.9725 217.633 44.6575C207.284 43.3245 196.882 49.1608 186.532 51.1062C176.166 53.0517 165.834 51.1423 155.467 48.5484C145.118 45.9725 134.716 42.7301 124.367 39.1635C114 35.5788 103.669 31.688 93.3019 34.5881C82.9528 37.5062 72.5503 47.2334 62.2013 52.7635C51.8344 58.2755 41.5031 59.6085 31.1362 56.3661C20.7872 53.1237 10.3847 45.306 5.20125 41.4151L0 37.5062V61.2837Z" fill="#94A5C4" />
@@ -305,91 +311,36 @@ export function SettingsPage({ userData, setUserData, fontType, setFontType, isS
                             </clipPath>
                         </defs>
                     </svg>
-                    <div className="w-full h-100 absolute z-10 top-0 left-0 flex flex-col justify-evenly items-center">                        
+
+                    {/* Settings selectors */}
+                    <div className="settings-selectors w-full h-100 absolute z-10 top-0 left-0 flex flex-col justify-evenly items-center">                        
                         <ThemeSelector 
                             handleClick={handleClick}
                         />
-                        <div className="font-selector w-55 h-13 flex justify-between items-center">
-                            <p className="block text-primary text-medium">Font</p>
-                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
-                                <svg
-                                    onClick={handleLeftClick}
-                                    className={`left-button active:scale-90 ${!leftIsVisible && "opacity-0"}`}
-                                    width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0.613169 9.5704C-0.204497 8.7836 -0.204498 7.47489 0.613168 6.68809L6.97873 0.562828C8.24933 -0.659815 10.3655 0.240659 10.3655 2.00398L10.3655 14.2545C10.3655 16.0178 8.24934 16.9183 6.97873 15.6957L0.613169 9.5704Z" fill="#414C60" />
-                                </svg>
-                                <p className="text-primary text-[0.9rem]">{fontType}</p>
-                                <svg
-                                    onClick={handleRightClick}
-                                    className={`right-button active:scale-90 ${!rightIsVisible && "opacity-0"}`}
-                                    width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.75231 9.5704C10.57 8.7836 10.57 7.47489 9.75231 6.68809L3.38675 0.562828C2.11614 -0.659814 6.24611e-08 0.24066 1.39538e-07 2.00398L6.75026e-07 14.2545C7.52103e-07 16.0178 2.11614 16.9183 3.38675 15.6957L9.75231 9.5704Z" fill="#414C60" />
-                                </svg>
+                        <FontSelector 
+                            handleLeftClick={handleLeftClick}
+                            leftIsVisible={leftIsVisible}
+                            rightIsVisible={rightIsVisible}
+                            handleRightClick={handleRightClick}
+                            fontType={fontType}
+                        />
+                        <TextSizeSelector 
+                            handleTextSizeClick={handleTextSizeClick}
+                            isDefaultFontSize={isDefaultFontSize}
+                        />
+                        <SoundSelector 
+                            handleSoundClick={handleSoundClick}
+                            isSoundOn={isSoundOn}
+                        />
 
-                            </div>
-                        </div>
-                        <div className="text-size-selector w-55 flex justify-between items-center  h-13">
-                            <p className="block text-primary text-medium">Text size</p>
-                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
-                                <button
-                                    id="default-size"
-                                    onClick={handleTextSizeClick}
-                                    className={`${isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
-                                >
-                                    Default
-                                </button>
-                                <button
-                                    id="larger-size"
-                                    onClick={handleTextSizeClick}
-                                    className={`${!isDefaultFontSize ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}
-                                >
-                                    Larger
-                                </button>
-                            </div>
-                        </div>
-                        <div className="sound-selector w-55 flex justify-between items-center  h-13">
-                            <p className="block text-primary text-medium">Sound</p>
-                            <div className="w-25 h-9 bg-canvas rounded-md flex justify-evenly items-center">
-                                <button
-                                    id="sound-on"
-                                    onClick={handleSoundClick}
-                                    className={`${isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
-                                    ON
-                                </button>
-                                <button
-                                    id="sound-off"
-                                    onClick={handleSoundClick}
-                                    className={`${!isSoundOn ? "text-canvas bg-primary" : "text-primary"} w-11 h-7 text-xs rounded-md`}>
-                                    OFF
-                                </button>
-                            </div>
-                        </div>
-
+                        {/* Back button only for desktop view */}
                         {isDesktopOrLaptop && (
-                            <div className="">                                    
-                                    <button
-                                        onClick={handleSettingsViewClick}
-                                        className="view-all-promises-back bg-primary dark:bg-dark-primary"
-                                    >
-                                    <svg
-                                        width="11"
-                                        height="14"
-                                        viewBox="0 0 11 14"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path d="M0.742762 8.46424C-0.247589 7.66375 -0.247587 6.15388 0.742763 5.35339L6.81119 0.44834C8.11907 -0.608808 10.0684 0.322069 10.0684 2.00377L10.0684 11.8139C10.0684 13.4956 8.11906 14.4264 6.81118 13.3693L0.742762 8.46424Z" fill="#D9D9D9" />
-                                    </svg>
-
-                                    Back
-                                </button>
-                            </div>
+                            <BackButton 
+                                handleSettingsViewClick={handleSettingsViewClick}
+                            />
                         )}
 
                     </div>
-
-
-
                 </div>
             </div>
 
