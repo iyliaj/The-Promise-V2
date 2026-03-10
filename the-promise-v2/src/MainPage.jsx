@@ -325,7 +325,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                 <p className="text-primary text-large ml-4">All Promises</p>
                             </div>
                             {sortedPromises.length > 0 && (
-                                <div className="all-promises w-full h-120 gap-3 flex flex-col items-center overflow-y-auto mt-3">
+                                <div className={`all-promises w-full ${isDesktopOrLaptop ? "h-80" : "h-120"} gap-3 flex flex-col items-center overflow-y-auto mt-3`}>
                                     {sortedPromises.map(promise => (
                                         <PromiseCard
                                             key={promise.id}
@@ -340,7 +340,8 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                     <p className="">Such emptiness...</p>
                                 </div>
                             )}
-                            <div>
+
+                            <div className={`${isDesktopOrLaptop ? "pl-6" : ""}`}>
                                 <button
                                     onClick={handleViewAllPromises}
                                     className="view-all-promises-back bg-primary dark:bg-dark-primary"
@@ -410,10 +411,14 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playR
                                                         </p>
                                                     </div>
                                                     <div className="text-container w-full h-20 pt-2">
-                                                        <p className="latest-promise-text text-primary dark:text-canvas text-extra-large">
-                                                            {sortedPromises[0].title.length > 30 ?
+                                                        <p className={`latest-promise-text text-primary dark:text-canvas text-extra-large inline-block mt-2 ${isDesktopOrLaptop ? "w-90" : "w-50"}`}>
+                                                            {!isDesktopOrLaptop && (sortedPromises[0].title.length > 30 ?
                                                                 sortedPromises[0].title.slice(0, 30) + "..." :
-                                                                sortedPromises[0].title}
+                                                                sortedPromises[0].title)}
+                                                            
+                                                            {isDesktopOrLaptop && (sortedPromises[0].title.length > 40 ?
+                                                                sortedPromises[0].title.slice(0, 40) + "..." :
+                                                                sortedPromises[0].title)}
                                                         </p>
                                                     </div>
                                                 </div>

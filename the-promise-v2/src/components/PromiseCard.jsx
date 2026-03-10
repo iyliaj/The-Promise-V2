@@ -12,7 +12,7 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
     const [renderStatus, setRenderStatus] = useState("inactive");
     // To manage showing short or full display of text
     const [isExpanded, setIsExpanded] = useState(false);
-    
+
     // Refs for measuring content heights
     const cardRef = useRef(null);
 
@@ -26,7 +26,7 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
                 const style = window.getComputedStyle(cardElement);
                 // Get total y axis padding
                 const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-                
+
                 // Create a temporary element to measure collapsed content
                 const tempDiv = document.createElement('div');
                 tempDiv.style.position = 'absolute';
@@ -39,7 +39,7 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
                 document.body.appendChild(tempDiv);
                 const collapsedHeight = tempDiv.offsetHeight + padding;
                 document.body.removeChild(tempDiv);
-                
+
                 // Create another temporary element to measure expanded content
                 const tempDiv2 = document.createElement('div');
                 tempDiv2.style.position = 'absolute';
@@ -56,12 +56,12 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
                 document.body.appendChild(tempDiv2);
                 const expandedHeight = tempDiv2.offsetHeight + padding;
                 document.body.removeChild(tempDiv2);
-                
+
                 // Set CSS custom properties for dynamic heights
                 cardElement.style.setProperty('--collapsed-height', `${collapsedHeight}px`);
                 cardElement.style.setProperty('--expanded-height', `${expandedHeight}px`);
             };
-            
+
             // Delay measurement to ensure styles are loaded
             setTimeout(measureHeights, 100);
         }
@@ -114,13 +114,21 @@ export function PromiseCard({ promise, updateExpiredPromise }) {
             )}
 
             {!isExpanded && (
-                <div>
+                <div className="flex justify-between">
+                    <div>
                     <p className="text-canvas text-medium">
                         {promise.title.length > 20 ? promise.title.slice(0, 20) + "..." : promise.title}
                     </p>
                     <p className="text-small text-primary dark:text-secondary">
                         {promise.description.length > 30 ? promise.description.slice(0, 30) + "..." : promise.description}
                     </p>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 10L12 14L8 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+
+                    </div>
                 </div>
             )}
 

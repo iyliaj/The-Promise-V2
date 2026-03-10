@@ -42,10 +42,6 @@
         @apply  w-28 h-7 rounded-md flex justify-center items-center
     }
 
-    .latest-promise-text {
-        @apply inline-block w-50 mt-2
-    }
-
     .expanding-box {
         @apply h-[95%] rounded-md absolute z-5 right-1 top-1/2 transform -translate-y-1/2 flex
     }
