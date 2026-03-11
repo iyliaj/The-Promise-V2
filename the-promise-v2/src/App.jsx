@@ -163,62 +163,42 @@ function App() {
     return saved || false;
   });
 
-  // AUDIO
+  // AUDIO — preload all sounds immediately so they're cached before first interaction
 
   // Pop Sound for standard clicks
-  const clickPopRef = useRef(null);
+  const clickPopRef = useRef(new Audio(clickPop));
 
   const playPopSound = (volume = 0.5) => {
-    if (!clickPopRef.current) {
-      clickPopRef.current = new Audio(clickPop);
-    }
-
     clickPopRef.current.volume = volume;
     clickPopRef.current.play();
   }
 
   // Reject sound for rejected clicks
-  const clickRejectRef = useRef(null);
+  const clickRejectRef = useRef(new Audio(clickReject));
 
   const playRejectSound = (volume = 0.8) => {
-    if (!clickRejectRef.current) {
-      clickRejectRef.current = new Audio(clickReject);
-    }
-
     clickRejectRef.current.volume = volume;
     clickRejectRef.current.play();
   }
 
   // Successful submit sound
-  const successfulSubmit = useRef(null);
+  const successfulSubmit = useRef(new Audio(submitSuccess));
 
   const playSuccessfulSubmit = (volume = 0.5) => {
-    if (!successfulSubmit.current) {
-      successfulSubmit.current = new Audio(submitSuccess);
-    }
-
     successfulSubmit.current.volume = volume;
     successfulSubmit.current.play();
   }
 
-  const expiredPromise = useRef(null);
+  const expiredPromise = useRef(new Audio(expiryAlarm));
 
   const playExpiryAlarm = (volume = 0.5) => {
-    if (!expiredPromise.current) {
-      expiredPromise.current = new Audio(expiryAlarm);
-    }
-
     expiredPromise.current.volume = volume;
     expiredPromise.current.play();
   }
 
-  const completePromise = useRef(null);
+  const completePromise = useRef(new Audio(promiseCompleted));
 
   const playCompletedPromise = (volume = 0.5) => {
-    if (!completePromise.current) {
-      completePromise.current = new Audio(promiseCompleted);
-    }
-
     completePromise.current.volume = volume;
     completePromise.current.play();
   }
