@@ -7,7 +7,7 @@ export function LatestPromiseTimerDesktop({ sortedPromises, updateExpiredPromise
     const playExpiryAlarm = useContext(ExpiryAlarmContext);
 
     return (
-        <div className="latest-promise-timer-lg overflow-hidden">
+        <div className="latest-promise-timer-lg h-[20%] overflow-hidden">
             <svg
                 width="371"
                 height="209"

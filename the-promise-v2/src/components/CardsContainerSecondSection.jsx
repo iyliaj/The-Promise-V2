@@ -51,8 +51,8 @@ export function CardsContainerSecondSection({ isDesktopOrLaptop, sortedPromises,
             )}
 
             <div className={`more-promises-section w-full ${isDesktopOrLaptop ? "h-full" : "h-[70%]"} flex justify-evenly gap-3`}>
-                <div className={`w-[50%] h-full flex flex-col justify-around ${isDesktopOrLaptop ? "gap-1" : "gap-2"}`}>
-                    <div className={`upcoming-promises w-full ${isDesktopOrLaptop ? "h-40" : "h-30"} bg-secondary dark:bg-primary rounded-md p-4`}>
+                <div className={`w-[50%] h-full flex flex-col justify-around ${isDesktopOrLaptop ? "gap-3 py-2" : "gap-2"}`}>
+                    <div className={`upcoming-promises w-full ${isDesktopOrLaptop ? "h-[60%]" : "h-30"} bg-secondary dark:bg-primary rounded-md p-4`}>
                         {!sortedPromises[1] && (
                             <p className="text-primary dark:text-secondary text-small">NO UPCOMING PROMISES</p>
                         )}
@@ -64,14 +64,14 @@ export function CardsContainerSecondSection({ isDesktopOrLaptop, sortedPromises,
                             </div>
                         )}
                     </div>
-                    <div className={`next-promises w-full ${isDesktopOrLaptop ? "h-22" : "h-18"} bg-extra dark:bg-primary rounded-md p-4`}>
+                    <div className={`next-promises w-full ${isDesktopOrLaptop ? "h-[20%]" : "h-18"} bg-extra dark:bg-primary rounded-md p-4`}>
                         {sortedPromises[1] && (
                             <p className="text-primary dark:text-canvas text-small">
                                 {sortedPromises[1].title.length > 16 ? sortedPromises[1].title.slice(0, 16) + "..." : sortedPromises[1].title}
                             </p>
                         )}
                     </div>
-                    <div className={`next-promises w-full ${isDesktopOrLaptop ? "h-22" : "h-18"} bg-extra dark:bg-primary rounded-md p-4`}>
+                    <div className={`next-promises w-full ${isDesktopOrLaptop ? "h-[20%]" : "h-18"} bg-extra dark:bg-primary rounded-md p-4`}>
                         {sortedPromises[2] && (
                             <p className="text-primary dark:text-canvas text-small">
                                 {sortedPromises[2].title.length > 16 ? sortedPromises[2].title.slice(0, 16) + "..." : sortedPromises[2].title}

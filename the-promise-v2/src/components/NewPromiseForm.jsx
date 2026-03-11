@@ -61,7 +61,7 @@ export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSound
     }
 
     const onError = (errors) => {
-        
+
         playRejectSound(isSoundOn ? 0.5 : 0);
 
         console.log(errors);
@@ -99,7 +99,8 @@ export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSound
     }
 
     return (
-        <div className={`new-promise-section ${isDesktopOrLaptop ? "w-full" : "w-full"} h-100 bg-secondary rounded-md relative overflow-hidden`}>
+        <div className={`new-promise-section ${isDesktopOrLaptop ? "w-full max-w-[900px] h-full" : "w-full h-100"} bg-secondary rounded-md relative overflow-hidden`}>
+
             <svg width="371" height="209" viewBox="100 45 140 150" fill="none" xmlns="http://www.w3.org/2000/svg" className="object-cover w-full h-full">
                 <g clipPath="url(#clip0_32_271)">
                     <path d="M0 50.3148L5.64229 54.5142C11.2653 58.6942 22.5498 67.0929 33.7765 70.5762C45.0224 74.0595 56.2297 72.6275 67.4756 66.7058C78.7022 60.7648 89.9868 50.3148 101.213 47.1798C112.459 44.0642 123.667 48.2442 134.913 52.0952C146.139 55.9268 157.424 59.4102 168.65 62.1775C179.896 64.9642 191.104 67.0155 202.35 64.9255C213.576 62.8355 224.861 56.5655 236.087 57.9975C247.333 59.4102 258.541 68.5056 269.787 73.7306C281.013 78.9556 292.298 80.3102 303.524 75.0852C314.77 69.8602 325.978 58.0555 337.224 60.1455C348.45 62.2549 359.735 78.2395 365.358 86.2512L371 94.2435V0H365.358C359.735 0 348.45 0 337.224 0C325.978 0 314.77 0 303.524 0C292.298 0 281.013 0 269.787 0C258.541 0 247.333 0 236.087 0C224.861 0 213.576 0 202.35 0C191.104 0 179.896 0 168.65 0C157.424 0 146.139 0 134.913 0C123.667 0 112.459 0 101.213 0C89.9868 0 78.7022 0 67.4756 0C56.2297 0 45.0224 0 33.7765 0C22.5498 0 11.2653 0 5.64229 0H0V50.3148Z" fill="#CCD5E6" />
@@ -114,6 +115,7 @@ export function NewPromiseForm({ handleClick, setUserData, playPopSound, isSound
                     </clipPath>
                 </defs>
             </svg>
+
 
             <div className="w-full h-full absolute z-5 top-0 left-0 p-8">
                 <div className="text-inputs-section w-full h-[45%] flex flex-col">
