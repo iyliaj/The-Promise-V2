@@ -7,9 +7,9 @@ export function CardsContainerSecondSection({ isDesktopOrLaptop, sortedPromises,
     const playExpiryAlarm = useContext(ExpiryAlarmContext);
 
     return (
-        <div className={`cards-container-second-section w-full ${isDesktopOrLaptop ? "h-full py-3" : "h-100"} flex flex-col justify-around`}>
+        <div className={`cards-container-second-section w-full ${isDesktopOrLaptop ? "h-full py-3" : "h-full"} flex flex-col justify-around`}>
             {!isDesktopOrLaptop && (
-                <div className="latest-promise-timer">
+                <div className={`latest-promise-timer ${!isDesktopOrLaptop ? "h-[18%]" : ""}`}>
                     <svg
                         width="371"
                         height="209"

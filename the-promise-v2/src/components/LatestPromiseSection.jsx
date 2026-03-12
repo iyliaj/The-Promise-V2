@@ -3,7 +3,7 @@
 
 export function LatestPromiseSection({ isDesktopOrLaptop, isExpired, sortedPromises, completePromiseState, handleCompletePromiseClick, isFadedIn, handleConfirmPromise }) {
     return (
-        <div className={`latest-promise-section w-full ${isDesktopOrLaptop ? "h-full" : "h-50"} flex flex-col justify-around`}>
+        <div className={`latest-promise-section w-full ${isDesktopOrLaptop ? "h-full" : "h-full"} flex flex-col justify-around`}>
             <div className={`latest-promise-card bg-secondary dark:bg-dark-primary ${isExpired && "bg-red-950"}`}>
 
                 {sortedPromises[0] && !isExpired && (
@@ -53,7 +53,7 @@ export function LatestPromiseSection({ isDesktopOrLaptop, isExpired, sortedPromi
                             </div>
 
                             {completePromiseState === "expanded" && (
-                                <div className={`latest-promise-container p-4 ${isFadedIn === "fadeIn" && "promise-fadeIn"} ${isFadedIn === "fadeOut" && "promise-fadeOut"}`}>
+                                <div className={`latest-promise-container ${!isDesktopOrLaptop ? "p-2" : "p-4"} ${isFadedIn === "fadeIn" && "promise-fadeIn"} ${isFadedIn === "fadeOut" && "promise-fadeOut"}`}>
                                     <p className="text-primary text-medium">{sortedPromises[0].title}</p>
                                     <p className="text-primary text-large mt-3">Complete promise?</p>
                                     <div className="flex gap-3 mt-4">

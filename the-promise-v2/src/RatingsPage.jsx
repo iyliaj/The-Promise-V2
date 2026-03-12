@@ -31,12 +31,12 @@ export function RatingsPage({ userData, isDesktopOrLaptop, handleRatingsViewClic
     }
 
     return (
-        <div className={`ratings-page-container ${isDesktopOrLaptop ? "h-full" : ""}`}>
+        <div className={`ratings-page-container ${isDesktopOrLaptop ? "h-full" : "h-screen"}`}>
             {!isDesktopOrLaptop && (
                 <TopBorder />
             )}
 
-            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mt-14 h-157"} px-10 w-full flex flex-col justify-evenly items-center bg-canvas dark:bg-secondary`}>
+            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mt-10 h-[80%]"} px-10 w-full flex flex-col justify-evenly items-center bg-canvas dark:bg-secondary`}>
                 <div className="top-section w-40 h-20 flex justify-evenly items-center">
                     <div className="flex justify-center items-center">
                         <svg width="56" height="62" viewBox="0 0 46 52" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,12 +55,12 @@ export function RatingsPage({ userData, isDesktopOrLaptop, handleRatingsViewClic
                     <p className="text-medium text-primary dark:text-dark-primary mt-4">{ratingInfo}</p>
                 </div>
 
-                <div className="w-full h-40 bg-secondary dark:bg-extra rounded-md p-4">
+                <div className={`trends-card w-full ${!isDesktopOrLaptop ? "h-[20%]" : "h-40"} bg-secondary dark:bg-extra rounded-md p-4`}>
                     <p className="text-primary dark:text-dark-primary text-medium">Your trends</p>
                     <p className="text-primary text-small">(Coming Soon)</p>
                 </div>
 
-                <div className="w-full h-40 bg-primary dark:bg-dark-primary rounded-md p-4">
+                <div className={`suggestions-card w-full ${!isDesktopOrLaptop ? "h-[20%]" : "h-40"} bg-primary dark:bg-dark-primary rounded-md p-4`}>
                     <p className="text-canvas text-medium">Suggestions</p>
                     <p className="text-canvas text-small">(Coming Soon)</p>
                 </div>

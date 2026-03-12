@@ -315,7 +315,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
                     <div className="translucent-overlay w-full h-screen bg-gray-900/50 absolute z-25"></div>
                 )}
 
-                <div className={`content-container bg-canvas dark:bg-secondary relative pt-1 w-full ${isDesktopOrLaptop ? "h-full rounded-2xl flex flex-col items-center" : "h-screen"}`}>
+                <div className={`content-container bg-canvas dark:bg-secondary relative pt-1 w-full ${isDesktopOrLaptop ? "h-full rounded-2xl flex flex-col items-center" : "h-full flex flex-col justify-center"}`}>
 
                     {/* Top border for mobile/tablet view */}
                     {!isDesktopOrLaptop && (
@@ -338,7 +338,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
                     {allPromisesView && (
                         <div
                             ref={allPromisesRef}
-                            className={`all-promises-view pt-5 px-5 ${isDesktopOrLaptop ? "w-1/2 absolute bottom-0 right-0 z-50 mt-0 bg-secondary rounded-md h-120" : "w-full mt-15 h-152"}`}
+                            className={`all-promises-view pt-5 px-5 ${isDesktopOrLaptop ? "w-1/2 absolute bottom-0 right-0 z-50 mt-0 bg-secondary rounded-md h-120" : "w-full mt-0 h-[80%]"}`}
                         >
                             <div className="all-promises-title">
                                 <p className="text-primary text-large ml-4">All Promises</p>
@@ -346,7 +346,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
 
                             {/* If there are promises to display */}
                             {sortedPromises.length > 0 && (
-                                <div className={`all-promises w-full ${isDesktopOrLaptop ? "h-80" : "h-120"} gap-3 flex flex-col items-center overflow-y-auto mt-3`}>
+                                <div className={`all-promises w-full ${isDesktopOrLaptop ? "h-80" : "h-[68%]"} gap-3 flex flex-col items-center overflow-y-auto mt-3`}>
                                     {sortedPromises.map(promise => (
                                         <PromiseCard
                                             key={promise.id}
@@ -374,7 +374,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
 
                     {/* If default view or desktop view and all promises button is clicked */}
                     {((!allPromisesView) || (allPromisesView && isDesktopOrLaptop)) && (
-                        <div className={`content w-full pt-1 px-5 ${isDesktopOrLaptop ? "mt-0 h-[85%]" : "mt-15 h-152"}`}>
+                        <div className={`content w-full pt-1 px-5 ${isDesktopOrLaptop ? "mt-0 h-[85%]" : "mt-0 h-[78%] flex flex-col justify-start mb-7"}`}>
 
                             {isDesktopOrLaptop && (
                                 <LatestPromiseTimerDesktop
@@ -385,7 +385,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
                                 />
                             )}
 
-                            <div className={`cards-container flex ${isDesktopOrLaptop ? "justify-evenly items-center gap-5 h-[80%]" : "flex-col"}`}>
+                            <div className={`cards-container flex ${isDesktopOrLaptop ? "justify-evenly items-center gap-5 h-[70%]" : "flex-col"} ${(!isDesktopOrLaptop && newPromiseStatus) ? "h-[50%]" : "h-[70%]"}`}>
                                 <LatestPromiseSection
                                     isDesktopOrLaptop={isDesktopOrLaptop}
                                     isExpired={isExpired}
@@ -457,7 +457,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
                     {(isDesktopOrLaptop && isSettingsView) && (
                         <div
                             ref={settingsRef}
-                            className="w-1/2 absolute z-50 bottom-0 left-0"
+                            className="w-1/2 absolute z-50 top-0 left-0"
                         >
                             <SettingsPage
                                 userData={userData}
