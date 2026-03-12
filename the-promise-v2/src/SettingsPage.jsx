@@ -292,12 +292,12 @@ export function SettingsPage({ userData, setUserData, setFontType, isSoundOn, se
 
 
     return (
-        <div className="settings-page h-screen">
+        <div className="settings-page h-screen relative pt-0 flex flex-col justify-center">
             {!isDesktopOrLaptop && (
                 <TopBorder />
             )}
 
-            <div className={`bg-canvas dark:bg-primary settings-page-container ${isDesktopOrLaptop ? "rounded-md w-full h-155" : "mt-5 h-[85%]"} p-5`}>
+            <div className={`bg-canvas dark:bg-primary settings-page-container ${isDesktopOrLaptop ? "rounded-md w-full h-155" : "mb-14 h-[85%]"} p-5`}>
                 <div className={`settings-container w-full ${!isDesktopOrLaptop ? "h-[92%] mt-8" : "h-130 mt-6"} bg-secondary rounded-md overflow-hidden relative`}>
 
                     {/* SVG background design for the container */}

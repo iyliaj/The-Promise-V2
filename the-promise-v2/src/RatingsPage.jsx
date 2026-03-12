@@ -31,12 +31,12 @@ export function RatingsPage({ userData, isDesktopOrLaptop, handleRatingsViewClic
     }
 
     return (
-        <div className={`ratings-page-container ${isDesktopOrLaptop ? "h-full" : "h-screen"}`}>
+        <div className={`ratings-page-container ${isDesktopOrLaptop ? "h-full" : "h-screen"} relative pt-0 flex flex-col justify-center`}>
             {!isDesktopOrLaptop && (
                 <TopBorder />
             )}
 
-            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mt-10 h-[80%]"} px-10 w-full flex flex-col justify-evenly items-center bg-canvas dark:bg-secondary`}>
+            <div className={`ratings-content-container ${isDesktopOrLaptop ? "h-154 rounded-md" : "mb-7 h-[80%]"} px-10 w-full flex flex-col justify-evenly items-center bg-canvas dark:bg-secondary`}>
                 <div className="top-section w-40 h-20 flex justify-evenly items-center">
                     <div className="flex justify-center items-center">
                         <svg width="56" height="62" viewBox="0 0 46 52" fill="none" xmlns="http://www.w3.org/2000/svg">

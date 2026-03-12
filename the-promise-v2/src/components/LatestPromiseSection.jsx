@@ -15,7 +15,7 @@ export function LatestPromiseSection({ isDesktopOrLaptop, isExpired, sortedPromi
                                 </p>
                             </div>
                             <div className="text-container w-full h-20 pt-2">
-                                <p className={`latest-promise-text text-primary dark:text-canvas text-extra-large inline-block mt-2 ${isDesktopOrLaptop ? "w-90" : "w-50"}`}>
+                                <p className={`latest-promise-text text-primary dark:text-canvas text-large inline-block mt-2 ${isDesktopOrLaptop ? "w-90" : "w-50"}`}>
                                     {!isDesktopOrLaptop && (sortedPromises[0].title.length > 30 ?
                                         sortedPromises[0].title.slice(0, 30) + "..." :
                                         sortedPromises[0].title)}

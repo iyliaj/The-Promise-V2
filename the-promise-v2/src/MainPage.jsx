@@ -279,7 +279,7 @@ export function MainPage({ userData, setUserData, playPopSound, isSoundOn, playC
 
 
     return (
-        <div className="mainpage-container relative w-full h-screen overflow-hidden">
+        <div className="mainpage-container relative w-full h-screen overflow-hidden pt-0">
 
             <div className="background-design absolute z-0 h-full w-full object-fill">
                 <svg
