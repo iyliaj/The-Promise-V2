@@ -34,6 +34,10 @@
 }
 
 @layer components {
+    html {
+      @apply bg-dark-primary
+    }
+
     .latest-promise-card {
         @apply w-full h-[90%] rounded-md p-5 relative 
     }
