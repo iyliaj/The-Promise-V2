@@ -163,12 +163,19 @@ function App() {
     return saved || false;
   });
 
+  // Ref so audio functions always read the latest isSoundOn without stale closures
+  const isSoundOnRef = useRef(isSoundOn);
+  useEffect(() => {
+    isSoundOnRef.current = isSoundOn;
+  }, [isSoundOn]);
+
   // AUDIO — preload all sounds immediately so they're cached before first interaction
 
   // Pop Sound for standard clicks
   const clickPopRef = useRef(new Audio(clickPop));
 
   const playPopSound = (volume = 0.5) => {
+    if (!isSoundOnRef.current) return;
     clickPopRef.current.volume = volume;
     clickPopRef.current.play();
   }
@@ -177,6 +184,7 @@ function App() {
   const clickRejectRef = useRef(new Audio(clickReject));
 
   const playRejectSound = (volume = 0.8) => {
+    if (!isSoundOnRef.current) return;
     clickRejectRef.current.volume = volume;
     clickRejectRef.current.play();
   }
@@ -185,6 +193,7 @@ function App() {
   const successfulSubmit = useRef(new Audio(submitSuccess));
 
   const playSuccessfulSubmit = (volume = 0.5) => {
+    if (!isSoundOnRef.current) return;
     successfulSubmit.current.volume = volume;
     successfulSubmit.current.play();
   }
@@ -192,6 +201,7 @@ function App() {
   const expiredPromise = useRef(new Audio(expiryAlarm));
 
   const playExpiryAlarm = (volume = 0.5) => {
+    if (!isSoundOnRef.current) return;
     expiredPromise.current.volume = volume;
     expiredPromise.current.play();
   }
@@ -199,6 +209,7 @@ function App() {
   const completePromise = useRef(new Audio(promiseCompleted));
 
   const playCompletedPromise = (volume = 0.5) => {
+    if (!isSoundOnRef.current) return;
     completePromise.current.volume = volume;
     completePromise.current.play();
   }
